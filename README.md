@@ -1,3 +1,4 @@
+<head>
 <style>
     .center{
         display:block;
@@ -8,6 +9,8 @@
         height:auto;
     }
 </style>
+</head>
+<body>
 <div>
     <img src="https://pbs.twimg.com/media/EFs21m0XYAIjq4T.jpg" class="banner center" alt="santa hat"/>
 </div>
@@ -19,3 +22,5 @@ Santa has become stranded at the edge of the Solar System while delivering prese
 
 Collect stars by solving puzzles. Two puzzles will be made available on each day in the Advent calendar; the second puzzle is unlocked when you complete the first. Each puzzle grants one star. Good luck!
 
+
+</body>
