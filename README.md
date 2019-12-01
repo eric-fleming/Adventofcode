@@ -1,5 +1,5 @@
 <div>
-    <img src="https://pbs.twimg.com/media/EFs21m0XYAIjq4T.jpg" width="60%" height="auto" style="margin:0 auto;" alt="santa hat"/>
+    <img src="https://pbs.twimg.com/media/EFs21m0XYAIjq4T.jpg" width="60%" height="auto" style="display:block;margin:0 auto;" alt="santa hat"/>
 </div>
 
 Every year [Advent of code](https://adventofcode.com/) puts out a two part programming challenege for its advent calendar.  These are my attempts.  You can try challenges of previous years by adding "/2015" after the domain.
