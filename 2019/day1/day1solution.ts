@@ -1,12 +1,6 @@
 /*Dependent Modules*/
-var fs = require('fs');
+import {readInput, inputToArray} from '../shared_functions/common';
 
-function readInput(){
-    const inputRead = fs.readFileSync('day1input.txt', 'utf8');
-    const inputStringArray = inputRead.split('\n');
-    const inputNumberArray = inputStringArray.map((str) => Number(str));
-    return inputNumberArray;
-}
 const calculation = (fuel) => {
     if (fuel > 0) {
         return Math.floor(fuel / 3) - 2;
@@ -25,14 +19,13 @@ function FuelRequired(fuelModules: number[]): number {
 }
 
 function firstChallenge(){
-
-    const inputNumberArray = readInput();
+    const inputNumberArray = inputToArray(readInput('day1input.txt'),'number');
     const total = FuelRequired(inputNumberArray);
     console.log(`The total amount of fuel is : ${total}`);
 }
 
 function secondChallenge(){
-    const inputNumberArray = readInput();
+    const inputNumberArray = inputToArray(readInput('day1input.txt'), 'number');
     let fuelInception = [];
     let fuelModuletotal = 0;
     for(let f=0;f<inputNumberArray.length;f++){
