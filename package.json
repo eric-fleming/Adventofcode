@@ -1,0 +1,26 @@
+{
+  "name": "adventofcode",
+  "version": "1.0.0",
+  "description": "coding for fun",
+  "main": "index.js",
+  "dependencies": {
+    "@types/node": "^12.12.14"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrfleming/Adventofcode.git"
+  },
+  "keywords": [
+    "adventofcode"
+  ],
+  "author": "Eric Fleming",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrfleming/Adventofcode/issues"
+  },
+  "homepage": "https://github.com/mrfleming/Adventofcode#readme"
+}
