@@ -1,15 +1,19 @@
+<!DOCTYPE html>
+<html>
 <head>
+<meta charset="UTF-8">
 <style>
-    .center{
-        display:block;
-        margin:0 auto;
-    }
-    .banner{
-        width:60%;
-        height:auto;
-    }
+.center{
+    display:block;
+    margin:0 auto;
+}
+.banner{
+    width:60%;
+    height:auto;
+}
 </style>
 </head>
+
 <body>
 <div>
     <img src="https://pbs.twimg.com/media/EFs21m0XYAIjq4T.jpg" class="banner center" alt="santa hat"/>
@@ -24,3 +28,5 @@ Collect stars by solving puzzles. Two puzzles will be made available on each day
 
 
 </body>
+
+</html>
