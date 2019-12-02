@@ -18,3 +18,13 @@ export function inputToArray(input:string, type:string,char:string) {
     }
     return outputArray;
 }
+
+export function inputToNumberArray(fileName: string,splitChar:string){ 
+    const rawFile = readInput(fileName);
+    return inputToArray(rawFile,'number',splitChar);
+}
+
+export function inputToStringArray(fileName: string, splitChar: string) {
+    const rawFile = readInput(fileName);
+    return inputToArray(rawFile, 'string', splitChar);
+}
