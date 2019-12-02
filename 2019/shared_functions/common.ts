@@ -6,9 +6,9 @@ export function readInput(fileName: string) {
     return inputRead;
 }
 
-export function inputToArray(input:string, type:string) {
+export function inputToArray(input:string, type:string,char:string) {
     type = type.toLocaleLowerCase();
-    const inputArray = input.split('\n');
+    const inputArray = input.split(char);
     let outputArray: any[];
     if( type === 'number'){
         outputArray = inputArray.map((str) => Number(str));

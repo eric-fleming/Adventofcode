@@ -7,9 +7,9 @@ function readInput(fileName) {
     return inputRead;
 }
 exports.readInput = readInput;
-function inputToArray(input, type) {
+function inputToArray(input, type, char) {
     type = type.toLocaleLowerCase();
-    var inputArray = input.split('\n');
+    var inputArray = input.split(char);
     var outputArray;
     if (type === 'number') {
         outputArray = inputArray.map(function (str) { return Number(str); });
