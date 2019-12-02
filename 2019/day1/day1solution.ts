@@ -19,13 +19,13 @@ function FuelRequired(fuelModules: number[]): number {
 }
 
 function firstChallenge(){
-    const inputNumberArray = inputToArray(readInput('day1input.txt'),'number');
+    const inputNumberArray = inputToArray(readInput('day1input.txt'), 'number', '\n');
     const total = FuelRequired(inputNumberArray);
     console.log(`The total amount of fuel is : ${total}`);
 }
 
 function secondChallenge(){
-    const inputNumberArray = inputToArray(readInput('day1input.txt'), 'number');
+    const inputNumberArray = inputToArray(readInput('day1input.txt'), 'number', '\n');
     let fuelInception = [];
     let fuelModuletotal = 0;
     for(let f=0;f<inputNumberArray.length;f++){
