@@ -70,8 +70,7 @@ function secondChallenge(setValidation:number, setSize:number){
         }
     }
     console.log('Hopefully something returns');
-
 }
 
-//firstChallenge(12,2);
+firstChallenge(12,2);
 secondChallenge(19690720,100);
