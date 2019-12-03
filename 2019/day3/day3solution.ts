@@ -21,14 +21,14 @@ function createPaths(array: any[]){
 
 // function to construct point objects with 'new'
 class Point {
-    x: number;
-    y: number;
-    length: number;
+    private x: number;
+    private y: number;
+    private length: number;
 
-    constructor(x:number, y:number){
+    constructor(x:number, y:number,plen:number){
         this.x = x;
         this.y = y;
-        this.length = 0;
+        this.length = plen;
     }
 
     equals(other: Point) {
@@ -37,26 +37,32 @@ class Point {
     add(vector) {
         let nextx = this.x + vector.x;
         let nexty = this.y + vector.y;
-        return new Point(nextx,nexty);
+        let nextlen = this.length + vector.length;
+        return new Point(nextx, nexty, nextlen);
     }
     copy(){
         let x = this.x;
         let y = this.y;
-        return new Point(x,y);
+        let plen = this.length;
+        return new Point(x, y, plen);
     }
-    getLength(){
+    getX(){
+        return this.x;
+    }
+    getY() {
+        return this.y;
+    }
+    getLength() {
         return this.length;
     }
-    setLength(len:number){
-        this.length = len;
-    }
+
 }
 
 
 // print a series of points for logging
 function PrintPoints(array: any, length:number){
     for(let p=0; p< length; p++){
-        console.log(`(${array[p].x}, ${array[p].y})`);
+        console.log(`(${array[p].getX()}, ${array[p].getY()}) with len = ${array[p].getLength()}`);
     }
 }
 
@@ -79,35 +85,36 @@ function parseInstruction(instruction: string){
 // converts each string instruction to a point
 // adds the point to the list
 function buildPointPath(path: any[]){
-    let origin = new Point(0, 0);
+    let origin = new Point(0, 0, 0); // length initialized to zero
     let pointSequence: Point[] = [origin];
 
     for(let p = 0; p < path.length; p++){
         // grab instruction
         let vector = parseInstruction(path[p]);
         let c = pointSequence.length - 1;
-        let currentPoint = pointSequence[c].copy();
+        // delete?? let currentPoint = pointSequence[c].copy();
         
         // adds the instruction to the current point to make next point
         for(let d = 0 ; d < vector.distance; d++){
             let nextPoint: Point;
-            currentPoint = pointSequence[c+d].copy();
+            let currentPoint = pointSequence[c+d].copy();
             if (vector.direction === 'U') {
-                let U = new Point(0, 1);
+                let U = new Point(0, 1, 1);
                 nextPoint = currentPoint.add(U);
             }
             else if (vector.direction === 'D') {
-                let D = new Point(0, -1);
+                let D = new Point(0, -1, 1);
                 nextPoint = currentPoint.add(D);
             }
             else if (vector.direction === 'R') {
-                let R = new Point(1, 0);
+                let R = new Point(1, 0, 1);
                 nextPoint = currentPoint.add(R);
             }
             else if (vector.direction === 'L') {
-                let L = new Point(-1, 0);
+                let L = new Point(-1, 0, 1);
                 nextPoint = currentPoint.add(L);
             }
+            //
             // place nextPoint into list repeatedly
             pointSequence.push(nextPoint);
         }
@@ -131,7 +138,7 @@ function firstChallenge(){
     let listOfPoints2 = buildPointPath(paths.second);
     console.log(`length of list 1: ${listOfPoints1.length}`);
     console.log(`length of list 2: ${listOfPoints2.length}`);
-    /** 
+     
     console.log('------ printing test points ------');
     PrintPoints(listOfPoints1,10);
     console.log('------ printing test points ------');
@@ -140,7 +147,7 @@ function firstChallenge(){
     let path1Size = listOfPoints1.length;
     let path2Size = listOfPoints2.length;
     let intersection = [];
-    /** */
+    /** 
     // I start at 1's because we dont want the origin.
     for(let a = 1; a < path1Size; a++){
         for(let b = 1; b < path2Size; b++){
