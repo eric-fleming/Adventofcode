@@ -1,11 +1,15 @@
 
-import { inputToArray } from '../shared_functions/common';
+import { inputToStringArray, inputToArray } from '../shared_functions/common';
 import { Point } from './point';
 
 
-export function createPaths(array: any[]) {
-    let firstPath = inputToArray(array[0], 'string', ',');
-    let secondPath = inputToArray(array[1], 'string', ',');
+// read the input file from the same directory
+// first split it into the two paths
+// then split each path into a sequence of instructions
+export function createPaths() {
+    const inputArray = inputToStringArray('day3input.txt', '\n');
+    let firstPath = inputToArray(inputArray[0], 'string', ',');
+    let secondPath = inputToArray(inputArray[1], 'string', ',');
     let paths = {
         first: firstPath,
         second: secondPath
@@ -16,6 +20,7 @@ export function createPaths(array: any[]) {
 
 
 // print a series of points for logging
+// Helped with debugging
 export function PrintPoints(array: any, length: number) {
     for (let p = 0; p < length; p++) {
         console.log(`(${array[p].getX()}, ${array[p].getY()}) with len = ${array[p].getLength()}`);
@@ -24,6 +29,7 @@ export function PrintPoints(array: any, length: number) {
 
 // convert instruction into a Point-vector
 // you can add points
+// each instruction is taken from one of the two paths returned from createPaths()
 export function parseInstruction(instruction: string) {
     const dir = instruction[0].toUpperCase();
     const dist = Number(instruction.substring(1));
@@ -41,19 +47,19 @@ export function parseInstruction(instruction: string) {
 // converts each string instruction to a point
 // adds the point to the list
 export function buildPointPath(path: any[]) {
-    let origin = new Point(0, 0, 0); // length initialized to zero
+    let origin = new Point(0, 0, 0);
     let pointSequence: Point[] = [origin];
 
     for (let p = 0; p < path.length; p++) {
         // grab instruction
         let vector = parseInstruction(path[p]);
         let c = pointSequence.length - 1;
-        // delete?? let currentPoint = pointSequence[c].copy();
 
         // adds the instruction to the current point to make next point
         for (let d = 0; d < vector.distance; d++) {
             let nextPoint: Point;
             let currentPoint = pointSequence[c + d].copy();
+            //decide
             if (vector.direction === 'U') {
                 let U = new Point(0, 1, 1);
                 nextPoint = currentPoint.add(U);

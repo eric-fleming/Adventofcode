@@ -1,96 +1,20 @@
 "use strict";
 exports.__esModule = true;
 /*Dependent Modules*/
-var common_1 = require("../shared_functions/common");
-var point_1 = require("./point");
-var rawInput = common_1.readInput('day3input.txt');
-var inputArray = common_1.inputToStringArray('day3input.txt', '\n');
-function createPaths(array) {
-    var firstPath = common_1.inputToArray(array[0], 'string', ',');
-    var secondPath = common_1.inputToArray(array[1], 'string', ',');
-    var paths = {
-        first: firstPath,
-        second: secondPath
-    };
-    return paths;
-}
-// cut Point class
-// print a series of points for logging
-function PrintPoints(array, length) {
-    for (var p = 0; p < length; p++) {
-        console.log("(" + array[p].getX() + ", " + array[p].getY() + ") with len = " + array[p].getLength());
-    }
-}
-// convert instruction into a Point-vector
-// you can add points
-function parseInstruction(instruction) {
-    var dir = instruction[0].toUpperCase();
-    var dist = Number(instruction.substring(1));
-    if (dir === 'U' || dir === 'D' || dir === 'L' || dir === 'R') {
-        return { direction: dir, distance: dist };
-    }
-    else {
-        console.error(dir + " is not a proper direction.");
-        return;
-    }
-}
-// Takes the path as an array of strings
-// converts each string instruction to a point
-// adds the point to the list
-function buildPointPath(path) {
-    var origin = new point_1.Point(0, 0, 0); // length initialized to zero
-    var pointSequence = [origin];
-    for (var p = 0; p < path.length; p++) {
-        // grab instruction
-        var vector = parseInstruction(path[p]);
-        var c = pointSequence.length - 1;
-        // delete?? let currentPoint = pointSequence[c].copy();
-        // adds the instruction to the current point to make next point
-        for (var d = 0; d < vector.distance; d++) {
-            var nextPoint = void 0;
-            var currentPoint = pointSequence[c + d].copy();
-            if (vector.direction === 'U') {
-                var U = new point_1.Point(0, 1, 1);
-                nextPoint = currentPoint.add(U);
-            }
-            else if (vector.direction === 'D') {
-                var D = new point_1.Point(0, -1, 1);
-                nextPoint = currentPoint.add(D);
-            }
-            else if (vector.direction === 'R') {
-                var R = new point_1.Point(1, 0, 1);
-                nextPoint = currentPoint.add(R);
-            }
-            else if (vector.direction === 'L') {
-                var L = new point_1.Point(-1, 0, 1);
-                nextPoint = currentPoint.add(L);
-            }
-            //
-            // place nextPoint into list repeatedly
-            pointSequence.push(nextPoint);
-        }
-    }
-    return pointSequence;
-}
+var path_1 = require("./path");
 function firstChallenge() {
     // get the instructions
-    var paths = createPaths(inputArray);
+    var paths = path_1.createPaths();
     // Generate sequence of points in each path
-    console.log("length of instructions 1: " + paths.first.length);
-    console.log("length of instructions 2: " + paths.second.length);
-    var listOfPoints1 = buildPointPath(paths.first);
-    var listOfPoints2 = buildPointPath(paths.second);
-    console.log("length of list 1: " + listOfPoints1.length);
-    console.log("length of list 2: " + listOfPoints2.length);
-    var path1Size = listOfPoints1.length;
-    var path2Size = listOfPoints2.length;
+    var listOfPoints1 = path_1.buildPointPath(paths.first);
+    var listOfPoints2 = path_1.buildPointPath(paths.second);
     var intersection = [];
     // I start at 1's because we dont want the origin.
-    for (var a = 1; a < path1Size; a++) {
-        for (var b = 1; b < path2Size; b++) {
+    for (var a = 1; a < listOfPoints1.length; a++) {
+        for (var b = 1; b < listOfPoints2.length; b++) {
             if (listOfPoints1[a].equals(listOfPoints2[b])) {
                 var p = listOfPoints1[a];
-                console.log("Found a point of intersection : (" + p.getX() + ", " + p.getY() + ")");
+                //console.log(`Found a point of intersection : (${p.getX()}, ${p.getY()})`);
                 intersection.push(listOfPoints1[a]);
             }
         }
@@ -98,16 +22,15 @@ function firstChallenge() {
     // Transform to the Manhattan distance
     console.log("Number of Intersectios : " + intersection.length);
     var distances = intersection.map(function (point) { return Math.abs(point.getX()) + Math.abs(point.getY()); });
-    console.table(distances.length);
     var min = Math.min.apply(Math, distances);
-    console.log("The minimum distance is " + min); // */
+    console.log("The minimum distance is " + min);
 }
 function secondChallenge() {
     // get the instructions
-    var paths = createPaths(inputArray);
+    var paths = path_1.createPaths();
     // Generate sequence of points in each path
-    var listOfPoints1 = buildPointPath(paths.first);
-    var listOfPoints2 = buildPointPath(paths.second);
+    var listOfPoints1 = path_1.buildPointPath(paths.first);
+    var listOfPoints2 = path_1.buildPointPath(paths.second);
     var intersectionPairs = [];
     // I start at 1's because we dont want the origin.
     for (var a = 1; a < listOfPoints1.length; a++) {
@@ -115,7 +38,7 @@ function secondChallenge() {
             if (listOfPoints1[a].equals(listOfPoints2[b])) {
                 var p = listOfPoints1[a];
                 var pair = [listOfPoints1[a].getLength(), listOfPoints2[b].getLength()];
-                console.log("Found a point of intersection : (" + p.getX() + ", " + p.getY() + ")");
+                //console.log(`Found a point of intersection : (${p.getX()}, ${p.getY()})`);
                 intersectionPairs.push(pair);
             }
         }
@@ -126,5 +49,17 @@ function secondChallenge() {
     var min = Math.min.apply(Math, intersctionTotalLengths);
     console.log("The minimum length of both wires combined is " + min); // */
 }
-//firstChallenge();
-secondChallenge();
+// main method to run the program
+function main(first, second) {
+    if (first) {
+        console.log('------  First Challenge Started ------');
+        firstChallenge();
+        console.log('------  Challend Completed -----------');
+    }
+    if (second) {
+        console.log('------  Second Challenge Started -----');
+        secondChallenge();
+        console.log('------  Challend Completed -----------');
+    }
+}
+main(true, true);
