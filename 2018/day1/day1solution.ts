@@ -6,11 +6,36 @@ const inputArray = inputToNumberArray('day1input.txt','\n');
 
 
 function firstChallenge() { 
-    let sum = (a,b) => a+b;
+    let sum = (a:number,b:number) => a+b;
     const total = inputArray.reduce(sum);
-    console.log(total);
+    console.log(`The final frequency is ${total}`);
 }
-function secondChallenge() { }
+function secondChallenge() { 
+    // initialize
+    let sum = 0;
+    let sumlist: number[] = [0];
+    const seen = new Set();
+    seen.add(0);
+    let len = inputArray.length - 1;
+
+    // start search
+    for(let f = 0; f < len; f++){
+        sum += inputArray[f];
+        sumlist.push(sum);
+        // check to see if it is already there
+        if(seen.has(sum)){
+            console.log(`We have seen ${sum} frequency already!`);
+            //console.table(sumlist);
+            break;
+        }
+        // put in
+        seen.add(sum);
+        // restart if you reach the end
+        if(f === len - 1){
+            f = -1;
+        }
+    }
+}
 
 
 
