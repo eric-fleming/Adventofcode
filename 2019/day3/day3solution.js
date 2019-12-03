@@ -2,6 +2,7 @@
 exports.__esModule = true;
 /*Dependent Modules*/
 var common_1 = require("../shared_functions/common");
+var point_1 = require("./point");
 var rawInput = common_1.readInput('day3input.txt');
 var inputArray = common_1.inputToStringArray('day3input.txt', '\n');
 function createPaths(array) {
@@ -13,39 +14,7 @@ function createPaths(array) {
     };
     return paths;
 }
-// function to construct point objects with 'new'
-var Point = /** @class */ (function () {
-    function Point(x, y, plen) {
-        this.x = x;
-        this.y = y;
-        this.length = plen;
-    }
-    Point.prototype.equals = function (other) {
-        return ((this.x === other.x) && (this.y === other.y));
-    };
-    Point.prototype.add = function (vector) {
-        var nextx = this.x + vector.x;
-        var nexty = this.y + vector.y;
-        var nextlen = this.length + vector.length;
-        return new Point(nextx, nexty, nextlen);
-    };
-    Point.prototype.copy = function () {
-        var x = this.x;
-        var y = this.y;
-        var plen = this.length;
-        return new Point(x, y, plen);
-    };
-    Point.prototype.getX = function () {
-        return this.x;
-    };
-    Point.prototype.getY = function () {
-        return this.y;
-    };
-    Point.prototype.getLength = function () {
-        return this.length;
-    };
-    return Point;
-}());
+// cut Point class
 // print a series of points for logging
 function PrintPoints(array, length) {
     for (var p = 0; p < length; p++) {
@@ -69,7 +38,7 @@ function parseInstruction(instruction) {
 // converts each string instruction to a point
 // adds the point to the list
 function buildPointPath(path) {
-    var origin = new Point(0, 0, 0); // length initialized to zero
+    var origin = new point_1.Point(0, 0, 0); // length initialized to zero
     var pointSequence = [origin];
     for (var p = 0; p < path.length; p++) {
         // grab instruction
@@ -81,19 +50,19 @@ function buildPointPath(path) {
             var nextPoint = void 0;
             var currentPoint = pointSequence[c + d].copy();
             if (vector.direction === 'U') {
-                var U = new Point(0, 1, 1);
+                var U = new point_1.Point(0, 1, 1);
                 nextPoint = currentPoint.add(U);
             }
             else if (vector.direction === 'D') {
-                var D = new Point(0, -1, 1);
+                var D = new point_1.Point(0, -1, 1);
                 nextPoint = currentPoint.add(D);
             }
             else if (vector.direction === 'R') {
-                var R = new Point(1, 0, 1);
+                var R = new point_1.Point(1, 0, 1);
                 nextPoint = currentPoint.add(R);
             }
             else if (vector.direction === 'L') {
-                var L = new Point(-1, 0, 1);
+                var L = new point_1.Point(-1, 0, 1);
                 nextPoint = currentPoint.add(L);
             }
             //

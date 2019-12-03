@@ -1,6 +1,7 @@
 /*Dependent Modules*/
 import { readInput, inputToStringArray, inputToArray } from '../shared_functions/common';
-import { maxHeaderSize } from 'http';
+import { Point } from './point';
+
 
 const rawInput = readInput('day3input.txt');
 const inputArray = inputToStringArray('day3input.txt','\n');
@@ -19,44 +20,8 @@ function createPaths(array: any[]){
 }
 
 
-// function to construct point objects with 'new'
-class Point {
-    private x: number;
-    private y: number;
-    private length: number;
+// cut Point class
 
-    constructor(x:number, y:number,plen:number){
-        this.x = x;
-        this.y = y;
-        this.length = plen;
-    }
-
-    equals(other: Point) {
-        return ((this.x === other.x) && (this.y === other.y));
-    }
-    add(vector) {
-        let nextx = this.x + vector.x;
-        let nexty = this.y + vector.y;
-        let nextlen = this.length + vector.length;
-        return new Point(nextx, nexty, nextlen);
-    }
-    copy(){
-        let x = this.x;
-        let y = this.y;
-        let plen = this.length;
-        return new Point(x, y, plen);
-    }
-    getX(){
-        return this.x;
-    }
-    getY() {
-        return this.y;
-    }
-    getLength() {
-        return this.length;
-    }
-
-}
 
 
 // print a series of points for logging
