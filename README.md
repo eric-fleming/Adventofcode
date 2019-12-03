@@ -16,6 +16,15 @@ Santa has become stranded at the edge of the Solar System while delivering prese
 
 Collect stars by solving puzzles. Two puzzles will be made available on each day in the Advent calendar; the second puzzle is unlocked when you complete the first. Each puzzle grants one star. Good luck!
 
+## About my 2019 Attempt
+
+I chose to do most of what I could in TypeScript / Node.  For every TS file there is a compiled JS file which Node will execute to run the program.  Compile in the terminal, run from the terminal.
+
+    $ tsc file.ts
+    $ node file.js
+
+I image at some point I will switch over to Java to run the programs as well.  But I honestly hate reading from the file system in Java so meh...
+
 
 </body>
 
