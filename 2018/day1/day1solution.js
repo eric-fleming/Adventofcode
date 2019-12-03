@@ -1,21 +1,16 @@
+"use strict";
+exports.__esModule = true;
 /*Dependent Modules*/
-import { readInput, inputToArray, inputToNumberArray, inputToStringArray, readInputSync } from '../shared_functions/common';
-
-
-const inputArray = inputToNumberArray('day1input.txt','\n');
-
-
-function firstChallenge() { 
-    let sum = (a,b) => a+b;
-    const total = inputArray.reduce(sum);
+var common_1 = require("../shared_functions/common");
+var inputArray = common_1.inputToNumberArray('day1input.txt', '\n');
+function firstChallenge() {
+    var sum = function (a, b) { return a + b; };
+    var total = inputArray.reduce(sum);
     console.log(total);
 }
 function secondChallenge() { }
-
-
-
 // main method to run the program
-function main(first: boolean, second: boolean) {
+function main(first, second) {
     if (first) {
         console.log('------  First Challenge Started ------');
         firstChallenge();
@@ -27,5 +22,4 @@ function main(first: boolean, second: boolean) {
         console.log('------  Challend Completed -----------');
     }
 }
-
 main(true, true);
