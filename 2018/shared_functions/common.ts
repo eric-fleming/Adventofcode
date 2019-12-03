@@ -7,7 +7,7 @@ export function readInputSync(fileName: string) {
 }
 
 export function readInput(fileName: string){
-    const inputRead = fs.readFile(fileName,'utf8', (err, data) => {
+    const inputRead = fs.readFile(fileName,'utf8', (err:any, data:any) => {
         if (err) throw err;
         console.log(data);
     });
