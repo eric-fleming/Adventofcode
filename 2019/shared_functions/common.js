@@ -20,3 +20,13 @@ function inputToArray(input, type, char) {
     return outputArray;
 }
 exports.inputToArray = inputToArray;
+function inputToNumberArray(fileName, splitChar) {
+    var rawFile = readInput(fileName);
+    return inputToArray(rawFile, 'number', splitChar);
+}
+exports.inputToNumberArray = inputToNumberArray;
+function inputToStringArray(fileName, splitChar) {
+    var rawFile = readInput(fileName);
+    return inputToArray(rawFile, 'string', splitChar);
+}
+exports.inputToStringArray = inputToStringArray;
