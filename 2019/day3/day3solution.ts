@@ -23,23 +23,40 @@ function createPaths(array: any[]){
 class Point {
     x: number;
     y: number;
+    length: number;
 
     constructor(x:number, y:number){
         this.x = x;
         this.y = y;
+        this.length = 0;
     }
 
     equals(other: Point) {
         return ((this.x === other.x) && (this.y === other.y));
     }
     add(vector) {
-        this.x += vector.x;
-        this.y += vector.y;
+        let nextx = this.x + vector.x;
+        let nexty = this.y + vector.y;
+        return new Point(nextx,nexty);
     }
     copy(){
         let x = this.x;
         let y = this.y;
         return new Point(x,y);
+    }
+    getLength(){
+        return this.length;
+    }
+    setLength(len:number){
+        this.length = len;
+    }
+}
+
+
+// print a series of points for logging
+function PrintPoints(array: any, length:number){
+    for(let p=0; p< length; p++){
+        console.log(`(${array[p].x}, ${array[p].y})`);
     }
 }
 
@@ -49,24 +66,13 @@ class Point {
 function parseInstruction(instruction: string){
     const dir = instruction[0].toUpperCase();
     const dist = Number(instruction.substring(1));
-    let p;
-    if(dir === 'U'){
-        p = new Point(0,dist);
-    }
-    else if (dir === 'D'){
-        p = new Point(0,-1*dist);
-    }
-    else if (dir === 'L') { 
-        p = new Point(-1*dist,0);
-    }
-    else if (dir === 'R') { 
-        p = new Point(dist,0);
+    if (dir === 'U' || dir === 'D' || dir === 'L' || dir === 'R'){
+        return {direction:dir, distance:dist}
     }
     else{
         console.error(`${dir} is not a proper direction.`);
         return;
     }
-    return p;
 }
 
 // Takes the path as an array of strings
@@ -79,12 +85,33 @@ function buildPointPath(path: any[]){
     for(let p = 0; p < path.length; p++){
         // grab instruction
         let vector = parseInstruction(path[p]);
-        let currentPoint = pointSequence[p].copy();
+        let c = pointSequence.length - 1;
+        let currentPoint = pointSequence[c].copy();
+        
         // adds the instruction to the current point to make next point
-        currentPoint.add(vector);
-        let nextPoint = currentPoint;
-        // place nextPoint into list
-        pointSequence.push(nextPoint);
+        for(let d = 0 ; d < vector.distance; d++){
+            let nextPoint: Point;
+            currentPoint = pointSequence[c+d].copy();
+            if (vector.direction === 'U') {
+                let U = new Point(0, 1);
+                nextPoint = currentPoint.add(U);
+            }
+            else if (vector.direction === 'D') {
+                let D = new Point(0, -1);
+                nextPoint = currentPoint.add(D);
+            }
+            else if (vector.direction === 'R') {
+                let R = new Point(1, 0);
+                nextPoint = currentPoint.add(R);
+            }
+            else if (vector.direction === 'L') {
+                let L = new Point(-1, 0);
+                nextPoint = currentPoint.add(L);
+            }
+            // place nextPoint into list repeatedly
+            pointSequence.push(nextPoint);
+        }
+        
     }
 
     return pointSequence;
@@ -98,17 +125,22 @@ function firstChallenge(){
     // console.table(paths.second);
 
     // Generate sequence of points in each path
+    console.log(`length of instructions 1: ${paths.first.length}`);
+    console.log(`length of instructions 2: ${paths.second.length}`);
     let listOfPoints1 = buildPointPath(paths.first);
     let listOfPoints2 = buildPointPath(paths.second);
-    console.log('This is the list of points from path 1');
-    console.log('--------------------------------------');
-    console.table(listOfPoints1);
-    console.log('--------------------------------------');
-
-
-    let path1Size = paths.first.length;
-    let path2Size = paths.second.length;
+    console.log(`length of list 1: ${listOfPoints1.length}`);
+    console.log(`length of list 2: ${listOfPoints2.length}`);
+    /** 
+    console.log('------ printing test points ------');
+    PrintPoints(listOfPoints1,10);
+    console.log('------ printing test points ------');
+    PrintPoints(listOfPoints2,10);
+    /***/
+    let path1Size = listOfPoints1.length;
+    let path2Size = listOfPoints2.length;
     let intersection = [];
+    /** */
     // I start at 1's because we dont want the origin.
     for(let a = 1; a < path1Size; a++){
         for(let b = 1; b < path2Size; b++){
@@ -120,11 +152,11 @@ function firstChallenge(){
         }
     }
     // Transform to the Manhattan distance
+    console.log(`Number of Intersectios : ${intersection.length}`);
     const distances = intersection.map(point => Math.abs(point.x) + Math.abs(point.y));
     console.table(distances.length);
     const min = Math.min(...distances);
-    console.log(`The minimum distance is ${min}`);
-
+    console.log(`The minimum distance is ${min}`); // */
 }
 function secondChallenge(){}
 
