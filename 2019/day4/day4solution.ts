@@ -1,16 +1,11 @@
-/*Dependent Modules*/
-import
-{ 
-    readInput, inputToArray, inputToNumberArray,
-    inputToStringArray, stringInputToObject, stringArrayToObjectArray 
-} from '../shared_functions/common';
+/* Input Range */
+const min = 234208;
+const max = 765869;
 
-// const rawInput = readInput('day4input.txt');
-
-
+// The number you are looking for has a double digit
+// but this could be in a larger triple or quadruple, etc...
 function hasDoubleDigit(input:number): boolean {
     let str = String(input);
-    let len = str.length;
     
     for (let n = 0; n < 10; n++){
         let doubledigit = String(n)+String(n);
@@ -20,23 +15,25 @@ function hasDoubleDigit(input:number): boolean {
     }
     return false;
 }
-function noHasTripleDigit(input: number): boolean {
+
+// can have two repeating digits, but not three repeating digits or more.
+// only need to test for excluding triples because of set theory
+function hasStrictlyDoubleDigit(input: number): boolean {
     let str = String(input);
-    let len = str.length;
 
     for (let n = 0; n < 10; n++) {
         let doubledigit = String(n) + String(n);
-        let tripledigit = String(n) + String(n) +String(n);
+        let tripledigit = String(n) + String(n) + String(n);
         if (str.indexOf(doubledigit) >= 0 && !(str.indexOf(tripledigit) >= 0)) {
             return true;
         }
     }
     return false;
 }
-console.log('test double is false : ' + hasDoubleDigit(127345));
-console.log('test double is true : ' + hasDoubleDigit(1234445));
 
 
+// Tests whether the integer is in non-decraseing order
+// The following digit can be the same value, larger, but not smaller.
 function isNonDecreasing(input:number):boolean {
     let str = String(input);
     let len = str.length;
@@ -47,48 +44,29 @@ function isNonDecreasing(input:number):boolean {
     return nonDecreasing;
 }
 
-console.log('test double is false : ' + isNonDecreasing(1127345));
-console.log('test double is false : ' + isNonDecreasing(1233440));
-console.log('test double is true : ' + isNonDecreasing(1233445));
-console.log('test double is true : ' + isNonDecreasing(257889));
 
 function firstChallenge() {
-    const min = 234208;
-    const max = 765869;
     let count = 0;
-    for(let num = min; num <= max;num++){
+    for(let num = min; num <= max; num++){
         if(hasDoubleDigit(num) && isNonDecreasing(num)){
             count++;
         }
     }
-    console.log('---------------------')
     console.log('the count is : '+count);
+    return count;
  }
+
+
 function secondChallenge() {
-    const min = 234208;
-    const max = 765869;
     let count = 0;
     for (let num = min; num <= max; num++) {
-        if (hasDoubleDigit(num) && isNonDecreasing(num)&& noHasTripleDigit(num)) {
+        if (hasStrictlyDoubleDigit(num) && isNonDecreasing(num)) {
             count++;
         }
     }
-    console.log('---------------------')
     console.log('the count is : ' + count);
+    return count;
  }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // main method to run the program
