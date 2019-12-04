@@ -30,6 +30,8 @@ export function stringInputToObject(str: string, keys: string[], chars: string[]
         start = stop + 1;
 
     }
+
+    return obj;
 }
 
 

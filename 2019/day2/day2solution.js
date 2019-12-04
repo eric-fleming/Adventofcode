@@ -50,12 +50,12 @@ function secondChallenge(setValidation, setSize) {
         loop2: for (var y = 0; y < size; y++) {
             var output = firstChallenge(x, y);
             if (output === validation) {
-                console.log("(x,y) = (" + x + "," + y + ") = " + (10 * x + y));
+                console.log("(x,y) = (" + x + "," + y + ") = " + (100 * x + y));
                 break loop1;
             }
         }
     }
     console.log('Hopefully something returns');
 }
-//firstChallenge(12,2);
-secondChallenge(19690720, 100);
+firstChallenge(12, 2);
+//secondChallenge(19690720,100);

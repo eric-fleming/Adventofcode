@@ -4,7 +4,6 @@
   "description": "coding for fun",
   "main": "index.js",
   "dependencies": {
-    "@types/es6-shim": "^0.31.39",
     "@types/node": "^12.12.14"
   },
   "devDependencies": {},

@@ -1,38 +1,44 @@
-"use strict";
-exports.__esModule = true;
 /*Dependent Modules*/
-var common_1 = require("../shared_functions/common");
-var inputArray = common_1.inputToNumberArray('day1input.txt', '\n');
-function firstChallenge() {
-    var sum = function (a, b) { return a + b; };
-    var total = inputArray.reduce(sum);
-    console.log("The final frequency is " + total);
+import { readInput, inputToArray, inputToNumberArray, inputToStringArray, readInputSync } from '../shared_functions/common';
+
+
+const inputArray = inputToNumberArray('day1input.txt','\n');
+
+
+function firstChallenge() { 
+    let sum = (a,b) => a+b;
+    const total = inputArray.reduce(sum);
+    console.log(`The final frequency is ${total}`);
 }
-function secondChallenge() {
+function secondChallenge() { 
     // initialize
-    var sum = 0;
-    var sumlist = [0];
-    var seen = new Set();
+    let sum = 0;
+    let sumlist= [0];
+    const seen = new Set();
     seen.add(0);
-    var len = inputArray.length - 1;
+    let len = inputArray.length - 1;
+
     // start search
-    for (var f = 0; f < len; f++) {
+    for(let f = 0; f < len; f++){
         sum += inputArray[f];
         sumlist.push(sum);
         // check to see if it is already there
-        if (seen.has(sum)) {
-            console.log("We have seen " + sum + " frequency already!");
+        if(seen.has(sum)){
+            console.log(`We have seen ${sum} frequency already!`);
             //console.table(sumlist);
             break;
         }
         // put in
         seen.add(sum);
         // restart if you reach the end
-        if (f === len - 1) {
+        if(f === len - 1){
             f = -1;
         }
     }
 }
+
+
+
 // main method to run the program
 function main(first, second) {
     if (first) {
@@ -46,4 +52,5 @@ function main(first, second) {
         console.log('------  Challend Completed -----------');
     }
 }
+
 main(true, true);

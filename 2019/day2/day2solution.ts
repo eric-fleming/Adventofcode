@@ -73,4 +73,4 @@ function secondChallenge(setValidation:number, setSize:number){
 }
 
 firstChallenge(12,2);
-secondChallenge(19690720,100);
+//secondChallenge(19690720,100);
