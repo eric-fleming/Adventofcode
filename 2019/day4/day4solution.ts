@@ -1,11 +1,29 @@
 /*Dependent Modules*/
-import { readInput, inputToArray, inputToNumberArray, inputToStringArray } from '../shared_functions/common';
+import
+{ 
+    readInput, inputToArray, inputToNumberArray,
+    inputToStringArray, stringInputToObject, stringArrayToObjectArray 
+} from '../shared_functions/common';
 
 const rawInput = readInput('day4input.txt');
 
 
 function firstChallenge() { }
 function secondChallenge() { }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // main method to run the program
 function main(first: boolean, second: boolean) {
