@@ -72,5 +72,19 @@ function secondChallenge(setValidation:number, setSize:number){
     console.log('Hopefully something returns');
 }
 
-firstChallenge(12,2);
-//secondChallenge(19690720,100);
+
+// main method to run the program
+function main(first: boolean, second: boolean) {
+    if (first) {
+        console.log('------  First Challenge Started ------');
+        firstChallenge(12, 2);
+        console.log('------  Challend Completed -----------');
+    }
+    if (second) {
+        console.log('------  Second Challenge Started -----');
+        secondChallenge(19690720, 100);
+        console.log('------  Challend Completed -----------');
+    }
+}
+
+main(true, true);

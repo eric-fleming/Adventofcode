@@ -42,5 +42,19 @@ function secondChallenge(){
     console.log(`The Recursive Fuel Total is : ${fuelModuletotal}`);
 }
 
-firstChallenge();
-secondChallenge();
+
+// main method to run the program
+function main(first: boolean, second: boolean) {
+    if (first) {
+        console.log('------  First Challenge Started ------');
+        firstChallenge();
+        console.log('------  Challend Completed -----------');
+    }
+    if (second) {
+        console.log('------  Second Challenge Started -----');
+        secondChallenge();
+        console.log('------  Challend Completed -----------');
+    }
+}
+
+main(true, true);
