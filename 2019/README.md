@@ -1,5 +1,12 @@
 # Advent of Code 2019
+<a href="https://adventofcode.com/2019/" target="_blank">Home Page</a>
 
+## Background Story
+Santa has become stranded at the edge of the Solar System while delivering presents to other planets! To accurately calculate his position in space, safely align his warp drive, and return to Earth in time to save Christmas, he needs you to bring him measurements from fifty stars.
+
+Collect stars by solving puzzles. Two puzzles will be made available on each day in the Advent calendar; the second puzzle is unlocked when you complete the first. Each puzzle grants one star. Good luck!
+
+## Individual Pages
 *  <a href="https://adventofcode.com/2019/day/1" target="_blank">Day 1 page</a>
 *  <a href="https://adventofcode.com/2019/day/2" target="_blank">Day 2 page</a>
 *  <a href="https://adventofcode.com/2019/day/3" target="_blank">Day 3 page</a>

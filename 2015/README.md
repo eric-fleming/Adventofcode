@@ -1,9 +1,12 @@
 # Advent of Code 2015
-Source code for all of the challenges that I have attempted for Christmas 2015.
-Go to [Advent of Code](http://adventofcode.com/2015) and click on a row in the Christmas tree to get a description of the challenge.
+<a href="https://adventofcode.com/2015/" target="_blank">Home Page</a>
 
-## Each Day
+## Background Story
+Santa was hoping for a white Christmas, but his weather machine's "snow" function is powered by stars, and he's fresh out! To save Christmas, he needs you to collect fifty stars by December 25th.
 
+Collect stars by helping Santa solve puzzles. Two puzzles will be made available on each day in the Advent calendar; the second puzzle is unlocked when you complete the first. Each puzzle grants one star. Good luck!
+
+## Individual Pages
 *  <a href="https://adventofcode.com/2015/day/1" target="_blank">Day 1 page</a>
 *  <a href="https://adventofcode.com/2015/day/2" target="_blank">Day 2 page</a>
 *  <a href="https://adventofcode.com/2015/day/3" target="_blank">Day 3 page</a>

@@ -1,8 +1,12 @@
 # Advent of Code 2016
-Source code for all of the challenges that I have attempted for Christmas 2015.
-Go to [Advent of Code](http://adventofcode.com/2016)
+<a href="https://adventofcode.com/2016/" target="_blank">Home Page</a>
 
+## Back Story
+Santa's sleigh uses a very high-precision clock to guide its movements, and the clock's oscillator is regulated by stars. Unfortunately, the stars have been stolen... by the Easter Bunny. To save Christmas, Santa needs you to retrieve all fifty stars by December 25th.
 
+Collect stars by solving puzzles. Two puzzles will be made available on each day in the Advent calendar; the second puzzle is unlocked when you complete the first. Each puzzle grants one star. Good luck!
+
+## Individual Pages
 *  <a href="https://adventofcode.com/2016/day/1" target="_blank">Day 1 page</a>
 *  <a href="https://adventofcode.com/2016/day/2" target="_blank">Day 2 page</a>
 *  <a href="https://adventofcode.com/2016/day/3" target="_blank">Day 3 page</a>
