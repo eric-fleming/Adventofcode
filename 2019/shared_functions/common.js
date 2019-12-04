@@ -25,7 +25,7 @@ function stringInputToObject(str, keys, chars) {
             stop_1 = str.length;
         }
         // extract substring, set key value pair
-        obj[key] = str.substring(start, stop_1);
+        obj[key] = str.substring(start, stop_1).trim();
         // move the start
         start = stop_1 + 1;
     }
