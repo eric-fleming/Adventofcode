@@ -2,11 +2,15 @@
 exports.__esModule = true;
 // common methods to be used for multiple days
 var fs = require('fs');
+// reads the text file as one giant string
 function readInput(fileName) {
     var inputRead = fs.readFileSync(fileName, 'utf8');
     return inputRead;
 }
 exports.readInput = readInput;
+// takes a formatted string
+// with the corresponding array of object keys
+// and the list of character delimeters for each key
 function stringInputToObject(str, keys, chars) {
     if (keys.length != (chars.length + 1)) {
         console.error('Miss match between key names and spliting characters');
@@ -32,6 +36,21 @@ function stringInputToObject(str, keys, chars) {
     return obj;
 }
 exports.stringInputToObject = stringInputToObject;
+// takes an array of formatted strings
+// with the corresponding array of object keys
+// and the list of character delimeters for each key
+function stringArrayToObjectArray(stringArray, keys, chars) {
+    var dataObjects = [];
+    for (var d = 0; d < stringArray.length; d++) {
+        var str = stringArray[d];
+        var obj = stringInputToObject(str, keys, chars);
+        dataObjects.push(obj);
+    }
+    return dataObjects;
+}
+exports.stringArrayToObjectArray = stringArrayToObjectArray;
+// meant to split a text file with only one type of delimeter
+// ideal for successive input of state changes
 function inputToArray(input, type, char) {
     type = type.toLocaleLowerCase();
     var inputArray = input.split(char);
@@ -49,11 +68,15 @@ function inputToArray(input, type, char) {
     return outputArray;
 }
 exports.inputToArray = inputToArray;
+// composed version of readFile and inputToArray
+// convert contents to numbers
 function inputToNumberArray(fileName, splitChar) {
     var rawFile = readInput(fileName);
     return inputToArray(rawFile, 'number', splitChar);
 }
 exports.inputToNumberArray = inputToNumberArray;
+// composed version of readFile and inputToArray
+// leave contents as strings
 function inputToStringArray(fileName, splitChar) {
     var rawFile = readInput(fileName);
     return inputToArray(rawFile, 'string', splitChar);
