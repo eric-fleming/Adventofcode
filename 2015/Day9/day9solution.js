@@ -90,8 +90,6 @@ function scheduleRoute(table,cityArray){
             usedRoutes.push(c);
         }
         if (count === secondCount) {
-            // reset count for second pass
-            count = 0;
             break;
         }
 
@@ -117,7 +115,7 @@ function c1(){
 function c2(){
     let rs = parseRoutes(routeStrings);
     sorted_rs = sortedByDistance(rs);
-    sorted_rs.reverse();
+    sorted_rs = sorted_rs.reverse();
     console.table(sorted_rs);
     let maxTrip = scheduleRoute(sorted_rs, locations);
     console.log(`The maximum distance is ${maxTrip}`);
