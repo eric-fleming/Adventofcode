@@ -18,7 +18,7 @@ var IntCodeComputer = /** @class */ (function () {
     // if the mode is 0, pass by reference
     IntCodeComputer.prototype.loadParamFromMem = function (opcode_idx, instruction, paramInt) {
         var paramMode = instruction['p' + paramInt];
-        //console.log(`param mode is = ${paramMode}`);
+        console.log("param mode is = " + paramMode);
         if (paramMode === 1) {
             return this.memory[opcode_idx + paramInt];
         }
@@ -57,8 +57,8 @@ var IntCodeComputer = /** @class */ (function () {
         // registers === [action, p1, p2, p3]
         // with the correct values for processing
         var registers = this.loadRegistersFromMem(pc, instruction);
-        //console.log('--- registers ---');
-        //console.table(registers);
+        console.log('--- registers ---');
+        console.table(registers);
         // decide and execute
         var action = registers[0];
         if (action === 99) {
@@ -78,7 +78,14 @@ var IntCodeComputer = /** @class */ (function () {
         else if (action === 3) {
             console.log('Input');
             // supposed to prompt but I just cached it
-            this.memory[registers[1]] = this.input;
+            if (registers[1] === 0) {
+                // param mode 0 : pass by ref
+                this.memory[registers[1]] = this.input;
+            }
+            else {
+                // param mode 1 : pass by value
+                this.input = this.memory[registers[1]];
+            }
             return 0;
         }
         else if (action === 4) {
@@ -122,7 +129,8 @@ var IntCodeComputer = /** @class */ (function () {
             var code = this.memory[this.programCounter];
             console.log("PC: " + this.programCounter + ";    memory[225] = " + this.memory[225]);
             var instruction = new opCodeInstruction_1.OpCodeInstruction(code, this.programCounter);
-            //console.table(instruction);
+            console.log('--- instruction ---');
+            console.table(instruction);
             increment = instruction.getJump();
             // Handles the instruction: FINISH IMPLEMENTATION ABOVE
             var override = this.applyOpCode(this.programCounter, instruction);
@@ -139,7 +147,7 @@ var IntCodeComputer = /** @class */ (function () {
                 break;
             }
             //console.log(`======================================`);
-            //console.log(`========== NEXT INSTRUCTION ==========\n`);
+            console.log("========== NEXT INSTRUCTION ==========\n");
             //console.log(`======================================`);
         }
     };
