@@ -20,7 +20,7 @@ function applyOldOpCode(c: number) {
     let left = opCodeArray[c + 1];
     let right = opCodeArray[c + 2];
     let output = opCodeArray[c + 3];
-
+    // execute
     if (opCodeArray[c] === 1) {
         opCodeArray[output] = opCodeArray[left] + opCodeArray[right];
     }
@@ -28,12 +28,12 @@ function applyOldOpCode(c: number) {
         opCodeArray[output] = opCodeArray[left] * opCodeArray[right];
     }
     else if (opCodeArray[c] === 3){
-        // since there is only one param, the left index is the first param
-        input = left;
+        // supposed to prompt but I just cached it
+        opCodeArray[left] = input;
     }
     else if (opCodeArray[c] === 4) {
         // treat the input as a reference
-        console.log(`output : ${opCodeArray[input]}`);
+        console.log(`output : ${opCodeArray[left]}`);
     }
 }
 
@@ -122,7 +122,7 @@ function applyNewOpCode(opcode_idx: number, opCodeObj: any){
     }
     else if (action === 4) {
         // output the literal input value
-        console.log(`output : ${input}`);
+        console.log(`output : ${opCodeArray[opcode_idx + 1]}`);
     }
 }
 
@@ -141,9 +141,9 @@ function firstChallenge(init: number) {
         let code = opCodeArray[c];
         // use this to verify what functions to call to modify the opCodeArray
         let opCodeObj = createOpCodeObj(code,c);
-        console.table(opCodeObj);
-        
-        if (opCodeObj['action'] === 99) {
+        //console.table(opCodeObj);
+        let action = opCodeObj['action'];
+        if (action === 99) {
             console.log('-- HALT --');
             break;
         }
@@ -151,15 +151,11 @@ function firstChallenge(init: number) {
             optype = 'old';
             applyOldOpCode(c);
             // set for-loop incrementer
-            if (opCodeObj['action'] === 1 || opCodeObj['action'] === 2) {
-                i = 4;
-            }
-            else if (opCodeObj['action'] === 3 || opCodeObj['action'] === 4) {
-                i = 2;
-            }
+            if (action === 1 || action === 2) {i = 4;}
+            else if (action === 3 || action === 4) {i = 2;}
         }
         else if(newOpCode(opCodeObj)){
-            optype = 'new'
+            optype = 'new';
             // set for-loop incrementer
             i = opCodeObj['jump'];
             // select and perform action
@@ -170,7 +166,7 @@ function firstChallenge(init: number) {
             console.table(opCodeObj);
             break;
         }
-        console.log(`completed opcode index ${c} with ${optype}`);
+        //console.log(`completed opcode index ${c} with ${optype}`);
         c = c + i;
     }
     
@@ -214,6 +210,7 @@ main(true, false);
 
 
 
+
 // old testing functions
 
 function testOpCodes() {
@@ -235,4 +232,7 @@ function testOpCodes() {
     //temp['p3'] = 0;
     console.log(oldOpCode(temp));
     // works now
+
+    initializeMem(1);
+    console.log(opCodeArray[225]);
 }
