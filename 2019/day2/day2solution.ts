@@ -14,12 +14,17 @@ function initializeMem(firstVal:number, secondVal:number){
 
 
 // run the addition or multiplication routine
-function applyOpCode(opcode_idx: number, left_idx: number, right_idx: number, output_idx: number){
+function applyOpCode(opcode_idx: number){
+    //grabbing the locations
+    let left = opCodeArray[opcode_idx + 1];
+    let right = opCodeArray[opcode_idx + 2];
+    let output = opCodeArray[opcode_idx+ 3];
+    // execute
     if (opCodeArray[opcode_idx] === 1) {
-        opCodeArray[output_idx] = opCodeArray[left_idx] + opCodeArray[right_idx];
+        opCodeArray[output] = opCodeArray[left] + opCodeArray[right];
     }
     else if (opCodeArray[opcode_idx] === 2) {
-        opCodeArray[output_idx] = opCodeArray[left_idx] * opCodeArray[right_idx];
+        opCodeArray[output] = opCodeArray[left] * opCodeArray[right];
     }
 }
 
@@ -32,13 +37,10 @@ function firstChallenge(first:number, second:number){
     let maxLength = opCodeArray.length;
     
     for(let c = 0; c < maxLength; c = c + 4){
-        //grabbing the locations
-        let left = opCodeArray[c + 1];
-        let right = opCodeArray[c + 2];
-        let output = opCodeArray[c + 3];
+        
         
         if (opCodeArray[c] === 1 || opCodeArray[c] === 2){
-            applyOpCode(c, left, right, output);
+            applyOpCode(c);
         }
         else if (opCodeArray[c] === 99){
             console.log('-- HALT --');
@@ -51,7 +53,7 @@ function firstChallenge(first:number, second:number){
     }
     console.log(`opCodeArray[0] = ${opCodeArray[0]}`);
     //console.table(opCodeArray);
-    return opCodeArray[0]
+    return opCodeArray[0];
 }
 
 function secondChallenge(setValidation:number, setSize:number){
@@ -87,4 +89,4 @@ function main(first: boolean, second: boolean) {
     }
 }
 
-main(true, true);
+main(true, false);

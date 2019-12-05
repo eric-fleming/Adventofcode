@@ -11,24 +11,25 @@ function initializeMem(firstVal, secondVal) {
     opCodeArray[2] = secondVal; //2
 }
 // run the addition or multiplication routine
-function applyOpCode(opcode_idx, left_idx, right_idx, output_idx) {
+function applyOpCode(opcode_idx) {
+    //grabbing the locations
+    var left = opCodeArray[opcode_idx + 1];
+    var right = opCodeArray[opcode_idx + 2];
+    var output = opCodeArray[opcode_idx + 3];
+    // execute
     if (opCodeArray[opcode_idx] === 1) {
-        opCodeArray[output_idx] = opCodeArray[left_idx] + opCodeArray[right_idx];
+        opCodeArray[output] = opCodeArray[left] + opCodeArray[right];
     }
     else if (opCodeArray[opcode_idx] === 2) {
-        opCodeArray[output_idx] = opCodeArray[left_idx] * opCodeArray[right_idx];
+        opCodeArray[output] = opCodeArray[left] * opCodeArray[right];
     }
 }
 function firstChallenge(first, second) {
     initializeMem(first, second);
     var maxLength = opCodeArray.length;
     for (var c = 0; c < maxLength; c = c + 4) {
-        //grabbing the locations
-        var left = opCodeArray[c + 1];
-        var right = opCodeArray[c + 2];
-        var output = opCodeArray[c + 3];
         if (opCodeArray[c] === 1 || opCodeArray[c] === 2) {
-            applyOpCode(c, left, right, output);
+            applyOpCode(c);
         }
         else if (opCodeArray[c] === 99) {
             console.log('-- HALT --');
@@ -57,5 +58,17 @@ function secondChallenge(setValidation, setSize) {
     }
     console.log('Hopefully something returns');
 }
-firstChallenge(12, 2);
-//secondChallenge(19690720,100);
+// main method to run the program
+function main(first, second) {
+    if (first) {
+        console.log('------  First Challenge Started ------');
+        firstChallenge(12, 2);
+        console.log('------  Challend Completed -----------');
+    }
+    if (second) {
+        console.log('------  Second Challenge Started -----');
+        secondChallenge(19690720, 100);
+        console.log('------  Challend Completed -----------');
+    }
+}
+main(true, false);
