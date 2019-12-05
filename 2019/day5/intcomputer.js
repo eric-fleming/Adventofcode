@@ -164,7 +164,7 @@ function compute(init) {
         // extract from Intcode and make handling object
         var code = opCodeArray[c];
         // use this to verify what functions to call to modify the opCodeArray
-        var opCodeObj = new opCodeInstruction_1.OpCodeInstruction(code);
+        var opCodeObj = new opCodeInstruction_1.OpCodeInstruction(code, c);
         //console.table(opCodeObj);
         var action = opCodeObj['action'];
         var override = void 0;

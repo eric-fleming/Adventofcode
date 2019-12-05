@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var OpCodeInstruction = /** @class */ (function () {
-    function OpCodeInstruction(code) {
+    function OpCodeInstruction(code, programCounter) {
         // code ABCDE
         this.action = code % 100; // extracts DE: 1, 2, 3, 4, 5, 6, 7, 8, or 99
         var params = (code - this.action) / 100; // extracts ABC: clears the bottom two digits
@@ -24,31 +24,81 @@ var OpCodeInstruction = /** @class */ (function () {
                 this.jump = 4;
             }
             else {
-                console.log("Invalid opcode : " + this.action + "\n Definition is not in API.\nCould not construct Instruction Object.");
+                console.log("Invalid input : " + code);
+                console.log("Invalid opcode : " + this.action);
+                console.log("Could not construct Instruction Object from index " + programCounter);
             }
         }
     }
+    OpCodeInstruction.prototype.getAction = function () {
+        return this.action;
+    };
+    OpCodeInstruction.prototype.getJump = function () {
+        return this.jump;
+    };
+    // if the mode is 1, pass by value
+    // if the mode is 0, pass by reference
+    OpCodeInstruction.prototype.loadParamFromMem = function (opcode_idx, intComputer, paramInt) {
+        if (this['p' + paramInt] === 1) {
+            return intComputer[opcode_idx + paramInt];
+        }
+        else if (this['p' + paramInt] === 0) {
+            return intComputer[intComputer[opcode_idx + paramInt]];
+        }
+    };
+    // execute the opCode, from the index, with internal state, on the intComputer.
+    OpCodeInstruction.prototype.applyTo = function (opcode_idx, intComputer) {
+        //staging the locations
+        var registers = [this.action, 0, 0, 0];
+        // load the params
+        for (var i = 1; i < 4; i++) {
+            if (!!this['p' + i]) {
+                registers[i] = this.loadParamFromMem(opcode_idx, intComputer, i);
+            }
+        }
+        // decide and execute
+        if (this.action === 99) {
+            console.log('Saw opcode 99');
+        }
+        else if (this.action === 1) {
+        }
+        else if (this.action === 2) {
+        }
+        else if (this.action === 3) {
+        }
+        else if (this.action === 4) {
+        }
+        else if (this.action === 5) {
+        }
+        else if (this.action === 6) {
+        }
+        else if (this.action === 7) {
+        }
+        else if (this.action === 8) {
+        }
+    };
     return OpCodeInstruction;
 }());
 exports.OpCodeInstruction = OpCodeInstruction;
 function test() {
-    var i0005 = new OpCodeInstruction(5);
+    var pc = -1;
+    var i0005 = new OpCodeInstruction(5, pc);
     console.table(i0005);
-    var i003 = new OpCodeInstruction(3);
+    var i003 = new OpCodeInstruction(3, pc);
     console.table(i003);
-    var i104 = new OpCodeInstruction(4);
+    var i104 = new OpCodeInstruction(4, pc);
     console.table(i104);
-    var i105 = new OpCodeInstruction(105);
+    var i105 = new OpCodeInstruction(105, pc);
     console.table(i105);
-    var i1102 = new OpCodeInstruction(1102);
+    var i1102 = new OpCodeInstruction(1102, pc);
     console.table(i1102);
-    var i0001 = new OpCodeInstruction(1);
+    var i0001 = new OpCodeInstruction(1, pc);
     console.table(i0001);
-    var i1001 = new OpCodeInstruction(1001);
+    var i1001 = new OpCodeInstruction(1001, pc);
     console.table(i1001);
-    var i1008 = new OpCodeInstruction(1008);
+    var i1008 = new OpCodeInstruction(1008, pc);
     console.table(i1008);
-    var i1107 = new OpCodeInstruction(1107);
+    var i1107 = new OpCodeInstruction(1107, pc);
     console.table(i1107);
 }
 // test();

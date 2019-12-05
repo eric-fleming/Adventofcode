@@ -17,7 +17,7 @@ export class IntCodeComputer{
     loadInstructions(inputVal: number){
         const rawInput = readInput('day5input.txt');
         this.memory = inputToArray(rawInput, 'number', ',');
-        this.input = inputVal; //1
+        this.input = inputVal; // 1 or 5
     }
 
 
@@ -65,10 +65,14 @@ export class IntCodeComputer{
             return 0;
         }
         else if (registers[0] === 3) {
+            // supposed to prompt but I just cached it
+            this.memory[registers[1]] = this.input;
             return 0;
 
         }
         else if (registers[0] === 4) {
+            // treat the input as a reference
+            console.log(`output : ${this.memory[registers[1]]}`);
             return 0;
 
         }
@@ -101,7 +105,8 @@ export class IntCodeComputer{
         while (this.programCounter < maxLength) {
             // Extract IntCode and make Instruction Object
             let code = this.memory[this.programCounter];
-            let instruction = new OpCodeInstruction(code);
+            let instruction = new OpCodeInstruction(code, this.programCounter);
+            console.table(instruction);
             increment = instruction.getJump();
             
             // Handles the instruction: FINISH IMPLEMENTATION ABOVE
@@ -116,6 +121,7 @@ export class IntCodeComputer{
             }
             else{
                 // override === -1
+                console.log()
                 break;
             }
         }
@@ -123,6 +129,7 @@ export class IntCodeComputer{
     }
 
     // cut out old code for reference while I implement new design
+    /** 
     oldRun(){
         // Extract IntCode and make Instruction Object
         let code = this.memory[this.programCounter];
@@ -155,5 +162,14 @@ export class IntCodeComputer{
             console.log(`Error: unknown op-code!\n Found at index ${this.programCounter}\n`);
             console.table(instruction);
         }
-    }
+    }*/
 }
+
+
+function testIntCodeComputer(){
+    const Computer = new IntCodeComputer();
+    Computer.loadInstructions(1);
+    Computer.run();
+}
+
+testIntCodeComputer();

@@ -183,7 +183,7 @@ function compute(init: number) {
         // extract from Intcode and make handling object
         let code = opCodeArray[c];
         // use this to verify what functions to call to modify the opCodeArray
-        let opCodeObj = new OpCodeInstruction(code);
+        let opCodeObj = new OpCodeInstruction(code,c);
         //console.table(opCodeObj);
         let action = opCodeObj['action'];
         let override;

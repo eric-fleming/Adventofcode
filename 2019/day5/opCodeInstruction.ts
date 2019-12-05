@@ -6,7 +6,7 @@ export class OpCodeInstruction{
     p3?: number;
     
 
-    constructor(code:number){
+    constructor(code:number, programCounter:number){
         // code ABCDE
         this.action = code % 100; // extracts DE: 1, 2, 3, 4, 5, 6, 7, 8, or 99
         let params = (code - this.action) / 100; // extracts ABC: clears the bottom two digits
@@ -30,7 +30,9 @@ export class OpCodeInstruction{
                 this.jump = 4;
             }
             else {
-                console.log(`Invalid opcode : ${this.action}\n Definition is not in API.\nCould not construct Instruction Object.`);
+                console.log(`Invalid input : ${code}`);
+                console.log(`Invalid opcode : ${this.action}`);
+                console.log(`Could not construct Instruction Object from index ${programCounter}`);
             }
         }
         
@@ -123,23 +125,24 @@ export class OpCodeInstruction{
 
 
 function test(){
-    let i0005 = new OpCodeInstruction(5);
+    let pc = -1;
+    let i0005 = new OpCodeInstruction(5,pc);
     console.table(i0005);
-    let i003 = new OpCodeInstruction(3);
+    let i003 = new OpCodeInstruction(3, pc);
     console.table(i003);
-    let i104 = new OpCodeInstruction(4);
+    let i104 = new OpCodeInstruction(4, pc);
     console.table(i104);
-    let i105 = new OpCodeInstruction(105);
+    let i105 = new OpCodeInstruction(105, pc);
     console.table(i105);
-    let i1102 = new OpCodeInstruction(1102);
+    let i1102 = new OpCodeInstruction(1102, pc);
     console.table(i1102);
-    let i0001 = new OpCodeInstruction(1);
+    let i0001 = new OpCodeInstruction(1, pc);
     console.table(i0001);
-    let i1001 = new OpCodeInstruction(1001);
+    let i1001 = new OpCodeInstruction(1001, pc);
     console.table(i1001);
-    let i1008 = new OpCodeInstruction(1008);
+    let i1008 = new OpCodeInstruction(1008, pc);
     console.table(i1008);
-    let i1107 = new OpCodeInstruction(1107);
+    let i1107 = new OpCodeInstruction(1107, pc);
     console.table(i1107);
 }
 
