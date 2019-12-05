@@ -63,8 +63,8 @@ export class IntCodeComputer{
         // registers === [action, p1, p2, p3]
         // with the correct values for processing
         let registers = this.loadRegistersFromMem(pc, instruction);
-        console.log('--- registers ---');
-        console.table(registers);
+        //console.log('--- registers ---');
+        //console.table(registers);
         // decide and execute
         let action = registers[0];
         if (action === 99) {
@@ -72,25 +72,22 @@ export class IntCodeComputer{
             return -1;
         }
         else if (action === 1) {
-            console.log('Add');
-            this.memory[registers[3]] = this.memory[registers[1]] + this.memory[registers[2]];
+            this.memory[registers[3]] = registers[1] + registers[2];
             return 0;
         }
         else if (action === 2) {
-            console.log('Multiply');
-            this.memory[registers[3]] = this.memory[registers[1]] * this.memory[registers[2]];
+            this.memory[registers[3]] = registers[1] * registers[2];
             return 0;
         }
         else if (action === 3) {
-            console.log('Input');
             // supposed to prompt but I just cached it
-            if(registers[1] === 0){
+            if(instruction.p1 === 0){
                 // param mode 0 : pass by ref
-                this.memory[registers[1]] = this.input;
+                this.memory[this.memory[pc + 1]] = this.input;
             }
             else{
                 // param mode 1 : pass by value
-                this.input = this.memory[registers[1]];
+                this.input = this.memory[pc + 1];
             }
             
             return 0;
@@ -98,7 +95,7 @@ export class IntCodeComputer{
         }
         else if (action === 4) {
             // treat the input as a reference
-            console.log(`output : ${this.memory[registers[1]]}`);
+            console.log(`output : ${registers[1]}`);
             return 0;
 
         }
@@ -137,10 +134,10 @@ export class IntCodeComputer{
         while (this.programCounter < maxLength) {
             // Extract IntCode and make Instruction Object
             let code = this.memory[this.programCounter];
-            console.log(`PC: ${this.programCounter};    memory[225] = ${this.memory[225]}`);
+            //console.log(`PC: ${this.programCounter};    memory[225] = ${this.memory[225]}`);
             let instruction = new OpCodeInstruction(code, this.programCounter);
-            console.log('--- instruction ---');
-            console.table(instruction);
+            //console.log('--- instruction ---');
+            //console.table(instruction);
             increment = instruction.getJump();
             
             // Handles the instruction: FINISH IMPLEMENTATION ABOVE
@@ -158,48 +155,10 @@ export class IntCodeComputer{
                 console.log()
                 break;
             }
-            //console.log(`======================================`);
-            console.log(`========== NEXT INSTRUCTION ==========\n`);
-            //console.log(`======================================`);
         }
         
     }
 
-    // cut out old code for reference while I implement new design
-    /** 
-    oldRun(){
-        // Extract IntCode and make Instruction Object
-        let code = this.memory[this.programCounter];
-        let instruction = new OpCodeInstruction(code);
-        let action = instruction.getAction();
-        let increment: number;// for moving the programCounter
-        
-        let override: number; // for jumping through the memory instead of incrementing
-        if (action === 99) {
-            console.log('-- HALT --');
-        }
-        else if (assemblyOpCode(instruction)) {
-            // set for-loop incrementer
-            increment = instruction.getJump();
-            override = applyAssemblyOpCode(this.programCounter, instruction);
-        }
-        else if (oldOpCode(instruction)) {
-            applyOldOpCode(this.programCounter);
-            // set for-loop incrementer
-            if (action === 1 || action === 2) { increment = 4; }
-            else if (action === 3 || action === 4) { increment = 2; }
-        }
-        else if (newOpCode(instruction)) {
-            // set for-loop incrementer
-            increment = instruction.getJump();
-            // select and perform action
-            applyNewOpCode(this.programCounter, instruction);
-        }
-        else {
-            console.log(`Error: unknown op-code!\n Found at index ${this.programCounter}\n`);
-            console.table(instruction);
-        }
-    }*/
 }
 
 

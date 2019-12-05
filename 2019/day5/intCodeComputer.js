@@ -57,8 +57,8 @@ var IntCodeComputer = /** @class */ (function () {
         // registers === [action, p1, p2, p3]
         // with the correct values for processing
         var registers = this.loadRegistersFromMem(pc, instruction);
-        console.log('--- registers ---');
-        console.table(registers);
+        //console.log('--- registers ---');
+        //console.table(registers);
         // decide and execute
         var action = registers[0];
         if (action === 99) {
@@ -66,31 +66,28 @@ var IntCodeComputer = /** @class */ (function () {
             return -1;
         }
         else if (action === 1) {
-            console.log('Add');
-            this.memory[registers[3]] = this.memory[registers[1]] + this.memory[registers[2]];
+            this.memory[registers[3]] = registers[1] + registers[2];
             return 0;
         }
         else if (action === 2) {
-            console.log('Multiply');
-            this.memory[registers[3]] = this.memory[registers[1]] * this.memory[registers[2]];
+            this.memory[registers[3]] = registers[1] * registers[2];
             return 0;
         }
         else if (action === 3) {
-            console.log('Input');
             // supposed to prompt but I just cached it
-            if (registers[1] === 0) {
+            if (instruction.p1 === 0) {
                 // param mode 0 : pass by ref
-                this.memory[registers[1]] = this.input;
+                this.memory[this.memory[pc + 1]] = this.input;
             }
             else {
                 // param mode 1 : pass by value
-                this.input = this.memory[registers[1]];
+                this.input = this.memory[pc + 1];
             }
             return 0;
         }
         else if (action === 4) {
             // treat the input as a reference
-            console.log("output : " + this.memory[registers[1]]);
+            console.log("output : " + registers[1]);
             return 0;
         }
         else if (action === 5 && registers[1] !== 0) {
@@ -127,10 +124,10 @@ var IntCodeComputer = /** @class */ (function () {
         while (this.programCounter < maxLength) {
             // Extract IntCode and make Instruction Object
             var code = this.memory[this.programCounter];
-            console.log("PC: " + this.programCounter + ";    memory[225] = " + this.memory[225]);
+            //console.log(`PC: ${this.programCounter};    memory[225] = ${this.memory[225]}`);
             var instruction = new opCodeInstruction_1.OpCodeInstruction(code, this.programCounter);
-            console.log('--- instruction ---');
-            console.table(instruction);
+            //console.log('--- instruction ---');
+            //console.table(instruction);
             increment = instruction.getJump();
             // Handles the instruction: FINISH IMPLEMENTATION ABOVE
             var override = this.applyOpCode(this.programCounter, instruction);
@@ -146,9 +143,6 @@ var IntCodeComputer = /** @class */ (function () {
                 console.log();
                 break;
             }
-            //console.log(`======================================`);
-            console.log("========== NEXT INSTRUCTION ==========\n");
-            //console.log(`======================================`);
         }
     };
     return IntCodeComputer;
