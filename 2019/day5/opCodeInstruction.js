@@ -36,47 +36,6 @@ var OpCodeInstruction = /** @class */ (function () {
     OpCodeInstruction.prototype.getJump = function () {
         return this.jump;
     };
-    // if the mode is 1, pass by value
-    // if the mode is 0, pass by reference
-    OpCodeInstruction.prototype.loadParamFromMem = function (opcode_idx, intComputer, paramInt) {
-        if (this['p' + paramInt] === 1) {
-            return intComputer[opcode_idx + paramInt];
-        }
-        else if (this['p' + paramInt] === 0) {
-            return intComputer[intComputer[opcode_idx + paramInt]];
-        }
-    };
-    // execute the opCode, from the index, with internal state, on the intComputer.
-    OpCodeInstruction.prototype.applyTo = function (opcode_idx, intComputer) {
-        //staging the locations
-        var registers = [this.action, 0, 0, 0];
-        // load the params
-        for (var i = 1; i < 4; i++) {
-            if (!!this['p' + i]) {
-                registers[i] = this.loadParamFromMem(opcode_idx, intComputer, i);
-            }
-        }
-        // decide and execute
-        if (this.action === 99) {
-            console.log('Saw opcode 99');
-        }
-        else if (this.action === 1) {
-        }
-        else if (this.action === 2) {
-        }
-        else if (this.action === 3) {
-        }
-        else if (this.action === 4) {
-        }
-        else if (this.action === 5) {
-        }
-        else if (this.action === 6) {
-        }
-        else if (this.action === 7) {
-        }
-        else if (this.action === 8) {
-        }
-    };
     return OpCodeInstruction;
 }());
 exports.OpCodeInstruction = OpCodeInstruction;
