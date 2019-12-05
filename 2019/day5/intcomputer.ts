@@ -171,7 +171,12 @@ function applyAssemblyOpCode(opcode_idx: number, opCodeObj: any) {
 
 
 function compute(init: number) {
-    console.log('secretly 2... shhhhhhhhhhhhhhh ;)');
+    if(init === 1){
+        console.log('First challenge')
+    }
+    if(init === 5){
+        console.log('Second challenge')
+    }
     initializeMem(init);
     let maxLength = opCodeArray.length;
 
@@ -182,6 +187,9 @@ function compute(init: number) {
     while (c < maxLength) {
         // extract from Intcode and make handling object
         let code = opCodeArray[c];
+        if(c < 7){
+            console.log(`PC: ${c};    memory[225] = ${opCodeArray[225]}`);
+        }
         // use this to verify what functions to call to modify the opCodeArray
         let opCodeObj = new OpCodeInstruction(code,c);
         //console.table(opCodeObj);
@@ -229,12 +237,12 @@ function compute(init: number) {
 
 
 // main method to run the program
-function main(run: boolean) {
+function main(run: boolean, init: number) {
     if (run) {
         console.log('------  Second Challenge Started -----');
-        compute(5); //should be 5 when it works
+        compute(init); //should be 5 when it works
         console.log('------  Challend Completed -----------');
     }
 }
 
-main(true);
+main(true,1);
