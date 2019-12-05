@@ -16,7 +16,8 @@ function initializeMem(inputVal: number) {
 }
 
 
-// run the addition or multiplication routine
+// implemented function executed in while loop
+// for opcodes 1, 2, 3, 4
 function applyOldOpCode(c: number) {
     //grabbing the locations
     let left = opCodeArray[c + 1];
@@ -76,7 +77,7 @@ function createOpCodeObj(code, c) {
 }
 
 
-// zeros mean pass by reference
+// 0 mean pass by reference
 function oldOpCode(opCodeObj) {
     // opcodes 1 and 2
     let condtion12 = (opCodeObj['p1'] === 0 && opCodeObj['p2'] === 0 && opCodeObj['p3'] === 0);
@@ -86,7 +87,7 @@ function oldOpCode(opCodeObj) {
 }
 
 
-
+// 1 means to pass by value, zero by reference, at least one param must be 1
 function newOpCode(opCodeObj) {
     // true || undefined == true
     // so if the param does not exist it will not affect the result
@@ -94,6 +95,9 @@ function newOpCode(opCodeObj) {
     return (opCodeObj['p1'] === 1 || opCodeObj['p2'] === 1 || opCodeObj['p2'] === 1);
 }
 
+
+// implemented function executed in while loop
+// for opcodes 1, 2, 3, 4
 function applyNewOpCode(opcode_idx: number, opCodeObj: any) {
     // cache for readability
     let action = opCodeObj['action'];
@@ -133,6 +137,57 @@ function applyNewOpCode(opcode_idx: number, opCodeObj: any) {
     }
 }
 
+// implemented function executed in while loop
+// for opcodes 5, 6, 7, 8
+function applyAssemblyOpCode(opcode_idx: number, opCodeObj: any) {
+    // cache for readability
+    let action = opCodeObj['action'];
+    //staging the locations
+    let p1: number;
+    let p2: number;
+    let p3: number;
+    // load params
+    if (opCodeObj['p1'] === 1) {
+        p1 = opCodeArray[opcode_idx + 1];
+    } else if (opCodeObj['p1'] === 0) {
+        p1 = opCodeArray[opCodeArray[opcode_idx + 1]];
+    }
+    if (opCodeObj['p2'] === 1) {
+        p2 = opCodeArray[opcode_idx + 2];
+    } else if (opCodeObj['p2'] === 0){
+        p2 = opCodeArray[opCodeArray[opcode_idx + 2]];
+    }
+    // always a pointer
+    if (opCodeObj['p3'] === 1) {
+        p3 = opCodeArray[opcode_idx + 3];
+    } else if (opCodeObj['p3'] === 0){
+        p3 = opCodeArray[opcode_idx + 3];
+    }
+
+    // execute
+    if (action === 5 && p1 !== 0) {
+        return p2;
+    }
+    else if (action === 6 && p1 === 0) {
+        return p2;
+    }
+    else if (action === 7) {
+        if (p1 < p2){
+            opCodeArray[p3] = 1;
+        } else{
+            opCodeArray[p3] = 0;
+        }
+    }
+    else if (action === 8) {
+        if (p1 === p2) {
+            opCodeArray[p3] = 1;
+        } else {
+            opCodeArray[p3] = 0;
+        }
+    }
+    
+    // unreadable, action was prescreened before method call.
+}
 
 
 function firstChallenge(init: number) {
@@ -190,10 +245,7 @@ function assemblyOpCode(opCodeObj){
 
 
 
-function applyAssemblyOpCode(c:number, opCodeObj:any){
 
-
-}
 
 
 
@@ -214,15 +266,16 @@ function secondChallenge(init: number) {
         let opCodeObj = createOpCodeObj(code, c);
         //console.table(opCodeObj);
         let action = opCodeObj['action'];
+        let override;
         if (action === 99) {
             console.log('-- HALT --');
             break;
         }
         else if (assemblyOpCode(opCodeObj)){
             optype = 'assembly';
-            applyAssemblyOpCode(c, opCodeObj);
             // set for-loop incrementer
-            if (action === 7 || action === 8) { i = 4; }
+            i = opCodeObj['jump'];
+            override = applyAssemblyOpCode(c, opCodeObj);
         }
         else if (oldOpCode(opCodeObj)) {
             optype = 'old';
@@ -245,6 +298,11 @@ function secondChallenge(init: number) {
         }
         //console.log(`completed opcode index ${c} with ${optype}`);
         c = c + i;
+        // this value will exist if something is output from a jump call
+        // the index of the jump is override
+        if(!!override){
+            c = override;
+        }
     }
 }
 
@@ -259,7 +317,7 @@ function main(first: boolean, second: boolean) {
     }
     if (second) {
         console.log('------  Second Challenge Started -----');
-        secondChallenge(1); //should be 5 when it works
+        secondChallenge(5); //should be 5 when it works
         console.log('------  Challend Completed -----------');
     }
 }
