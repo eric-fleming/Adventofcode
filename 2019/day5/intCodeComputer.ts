@@ -71,14 +71,17 @@ export class IntCodeComputer{
             console.log('--- HALT: opcode 99 ---');
             return -1;
         }
+
         else if (action === 1) {
             this.memory[registers[3]] = registers[1] + registers[2];
             return 0;
         }
+
         else if (action === 2) {
             this.memory[registers[3]] = registers[1] * registers[2];
             return 0;
         }
+
         else if (action === 3) {
             // supposed to prompt but I just cached it
             if(instruction.p1 === 0){
@@ -89,22 +92,29 @@ export class IntCodeComputer{
                 // param mode 1 : pass by value
                 this.input = this.memory[pc + 1];
             }
-            
             return 0;
-
         }
+
         else if (action === 4) {
-            // treat the input as a reference
-            console.log(`output : ${registers[1]}`);
+            if(instruction.p1 === 0){
+                // param mode 0 : pass by ref
+                console.log(`output (by ref) : ${this.memory[this.memory[pc + 1]]}`);
+            }
+            else{
+                // param mode 1 : pass by value
+                console.log(`output (by val) : ${this.memory[pc + 1]}`);
+            }
             return 0;
-
         }
+
         else if (action === 5 && registers[1] !== 0) {
             return registers[2];
         }
+
         else if (action === 6 && registers[1] === 0) {
             return registers[2];
         }
+
         else if (action === 7) {
             if (registers[1] < registers[2]) {
                 this.memory[registers[3]] = 1;
@@ -112,6 +122,7 @@ export class IntCodeComputer{
                 this.memory[registers[3]] = 0;
             }
         }
+
         else if (action === 8) {
             if (registers[1] === registers[2]) {
                 this.memory[registers[3]] = 1;
@@ -152,7 +163,7 @@ export class IntCodeComputer{
             }
             else{
                 // override === -1
-                console.log()
+                console.log(`SHUTDOWN...`);
                 break;
             }
         }
@@ -162,15 +173,24 @@ export class IntCodeComputer{
 }
 
 
-function testIntCodeComputer(init:number){
+// main method to run the program
+function main(init1: number, init2: number) {
     const Computer = new IntCodeComputer();
-    Computer.loadInstructions(init);
-    Computer.run();
+    if (init1 !== 0) {
+        console.log('------  First Challenge Started -----');
+        Computer.loadInstructions(init1);
+        Computer.run();
+        console.log('------  Challend Completed -----------');
+    }
+    if (init2 !== 0) {
+        console.log('------  Second Challenge Started -----');
+        Computer.loadInstructions(init2);
+        Computer.run();
+        console.log('------  Challend Completed -----------');
+    }
 }
 
-testIntCodeComputer(1);
-
-
+main(1, 5);
 
 
 

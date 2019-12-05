@@ -86,8 +86,14 @@ var IntCodeComputer = /** @class */ (function () {
             return 0;
         }
         else if (action === 4) {
-            // treat the input as a reference
-            console.log("output : " + registers[1]);
+            if (instruction.p1 === 0) {
+                // param mode 0 : pass by ref
+                console.log("output (by ref) : " + this.memory[this.memory[pc + 1]]);
+            }
+            else {
+                // param mode 1 : pass by value
+                console.log("output (by val) : " + this.memory[pc + 1]);
+            }
             return 0;
         }
         else if (action === 5 && registers[1] !== 0) {
@@ -140,7 +146,7 @@ var IntCodeComputer = /** @class */ (function () {
             }
             else {
                 // override === -1
-                console.log();
+                console.log("SHUTDOWN...");
                 break;
             }
         }
@@ -148,12 +154,23 @@ var IntCodeComputer = /** @class */ (function () {
     return IntCodeComputer;
 }());
 exports.IntCodeComputer = IntCodeComputer;
-function testIntCodeComputer(init) {
+// main method to run the program
+function main(init1, init2) {
     var Computer = new IntCodeComputer();
-    Computer.loadInstructions(init);
-    Computer.run();
+    if (init1 !== 0) {
+        console.log('------  First Challenge Started -----');
+        Computer.loadInstructions(init1);
+        Computer.run();
+        console.log('------  Challend Completed -----------');
+    }
+    if (init2 !== 0) {
+        console.log('------  Second Challenge Started -----');
+        Computer.loadInstructions(init2);
+        Computer.run();
+        console.log('------  Challend Completed -----------');
+    }
 }
-testIntCodeComputer(1);
+main(1, 5);
 /*
 
 
