@@ -1,6 +1,6 @@
 export class OpCodeInstruction{
-    action: number;
-    jump: number;
+    private action: number;
+    private jump: number;
     p1: number;
     p2?: number;
     p3?: number;
@@ -35,7 +35,12 @@ export class OpCodeInstruction{
         }
         
     }
-
+    getAction(){
+        return this.action;
+    }
+    getJump() {
+        return this.jump;
+    }
 
     // if the mode is 1, pass by value
     // if the mode is 0, pass by reference
@@ -47,7 +52,7 @@ export class OpCodeInstruction{
         }
     }
 
-    
+
     // execute the opCode, from the index, with internal state, on the intComputer.
     applyTo(opcode_idx: number,intComputer: number[]){
         
