@@ -185,7 +185,9 @@ function firstChallenge(init: number) {
 
 
 
-function secondChallenge() { }
+function secondChallenge(init:number) { 
+
+}
 
 
 
@@ -198,7 +200,7 @@ function main(first: boolean, second: boolean) {
     }
     if (second) {
         console.log('------  Second Challenge Started -----');
-        secondChallenge();
+        secondChallenge(5);
         console.log('------  Challend Completed -----------');
     }
 }
