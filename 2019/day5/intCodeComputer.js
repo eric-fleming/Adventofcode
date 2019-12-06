@@ -23,10 +23,9 @@ var IntCodeComputer = /** @class */ (function () {
     };
     // if the mode is 1, pass by value
     // if the mode is 0, pass by reference
-    // not safe yet
+    // not safe for p3 since it does not always pull info from the memory array.
     IntCodeComputer.prototype.loadParamFromMem = function (opcode_idx, instruction, paramInt) {
         var paramMode = instruction['p' + paramInt];
-        console.log("param mode is = " + paramMode);
         if (paramMode === 1) {
             return this.memory[opcode_idx + paramInt];
         }
@@ -34,33 +33,26 @@ var IntCodeComputer = /** @class */ (function () {
             return this.memory[this.memory[opcode_idx + paramInt]];
         }
     };
-    //not safe yet
     // supposed to call the method above to dynamically load the data
     // I had many errors so I postponed working on it and just repeated myself
     IntCodeComputer.prototype.loadRegistersFromMem = function (pc, instruction) {
         //staging the locations
         var registers = [instruction.getAction()];
-        // old
-        // load params
-        if (instruction['p1'] === 1) {
-            registers[1] = this.memory[pc + 1];
+        // load the params
+        for (var i = 1; i < 4; i++) {
+            //console.log(`has param ${i}? => ${instruction['p' + i] !== undefined}`);
+            var pindex = 'p' + i;
+            if (instruction[pindex] !== undefined) {
+                if (i === 3) {
+                    registers[i] = this.memory[pc + i];
+                }
+                else {
+                    registers[i] = this.loadParamFromMem(pc, instruction, i);
+                }
+            }
         }
-        else if (instruction['p1'] === 0) {
-            registers[1] = this.memory[this.memory[pc + 1]];
-        }
-        if (instruction['p2'] === 1) {
-            registers[2] = this.memory[pc + 2];
-        }
-        else if (instruction['p2'] === 0) {
-            registers[2] = this.memory[this.memory[pc + 2]];
-        }
-        // always a pointer
-        if (instruction['p3'] === 1) {
-            registers[3] = this.memory[pc + 3];
-        }
-        else if (instruction['p3'] === 0) {
-            registers[3] = this.memory[pc + 3];
-        }
+        //console.log('--- registers ---');
+        //console.table(registers);
         return registers;
     };
     // executes the instruction one the memory
@@ -68,8 +60,6 @@ var IntCodeComputer = /** @class */ (function () {
         // registers === [action, p1, p2, p3]
         // with the correct values for processing
         var registers = this.loadRegistersFromMem(pc, instruction);
-        //console.log('--- registers ---');
-        //console.table(registers);
         // decide and execute
         var action = registers[0];
         if (action === 99) {
@@ -194,36 +184,3 @@ function main(init1, init2) {
     }
 }
 main(1, 5);
-/*
-
-
-// if the mode is 1, pass by value
-    // if the mode is 0, pass by reference
-    private loadParamFromMem(opcode_idx: number, instruction: OpCodeInstruction, paramInt: number) {
-        let paramMode: number = instruction['p' + paramInt];
-        console.log(`param mode is = ${paramMode}`);
-        if (paramMode === 1) {
-            return this.memory[opcode_idx + paramInt];
-        } else if (paramMode === 0) {
-            return this.memory[this.memory[opcode_idx + paramInt]];
-        }
-    }
-
-    private loadRegistersFromMem(pc: number, instruction: OpCodeInstruction) {
-        //staging the locations
-        let registers = [instruction.getAction()];
-
-        // load the params
-        for (let i = 1; i < 4; i++) {
-            console.log(`has param ${i}? => ${instruction['p' + i] !== undefined}`);
-            if (instruction['p' + i] !== undefined) {
-                registers[i] = this.loadParamFromMem(pc, instruction, i);
-            }
-        }
-
-        return registers;
-    }
-
-
-
- */ 
