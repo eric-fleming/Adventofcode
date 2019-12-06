@@ -8,8 +8,15 @@ var IntCodeComputer = /** @class */ (function () {
         this.programCounter = 0;
         this.memory = [];
     }
+    // clears the computer to be used again;
+    IntCodeComputer.prototype.reset = function () {
+        this.programCounter = 0;
+        this.memory = [];
+        this.input = undefined;
+    };
     // initializes the object
     IntCodeComputer.prototype.loadInstructions = function (inputVal) {
+        this.reset();
         var rawInput = common_1.readInput('day5input.txt');
         this.memory = common_1.inputToArray(rawInput, 'number', ',');
         this.input = inputVal; // 1 or 5
@@ -159,14 +166,12 @@ var IntCodeComputer = /** @class */ (function () {
                 this.programCounter += increment;
             }
             else if (override > 0) {
-                //console.log('We jumped!');
                 this.programCounter = override;
             }
             else {
                 // override === -1
                 break;
             }
-            //console.log(`\n========= NEXT ITERATION =========\n`);
         }
     };
     return IntCodeComputer;
@@ -174,18 +179,17 @@ var IntCodeComputer = /** @class */ (function () {
 exports.IntCodeComputer = IntCodeComputer;
 // main method to run the program
 function main(init1, init2) {
-    var ComputerA = new IntCodeComputer();
-    var ComputerB = new IntCodeComputer();
+    var Computer = new IntCodeComputer();
     if (init1 !== 0) {
         console.log('------  First Challenge Started -----');
-        ComputerA.loadInstructions(init1);
-        ComputerA.run();
+        Computer.loadInstructions(init1);
+        Computer.run();
         console.log('------  Challend Completed -----------\n\n');
     }
     if (init2 !== 0) {
         console.log('\n\n------  Second Challenge Started -----');
-        ComputerB.loadInstructions(init2);
-        ComputerB.run();
+        Computer.loadInstructions(init2);
+        Computer.run();
         console.log('------  Challend Completed -----------');
     }
 }

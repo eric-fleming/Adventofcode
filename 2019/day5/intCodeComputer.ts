@@ -13,8 +13,17 @@ export class IntCodeComputer{
         this.memory = [];
     }
 
+    // clears the computer to be used again;
+    reset() {
+        this.programCounter = 0;
+        this.memory = [];
+        this.input = undefined;
+    }
+
+
     // initializes the object
     loadInstructions(inputVal: number){
+        this.reset();
         const rawInput = readInput('day5input.txt');
         this.memory = inputToArray(rawInput, 'number', ',');
         this.input = inputVal; // 1 or 5
@@ -179,14 +188,12 @@ export class IntCodeComputer{
                 this.programCounter += increment;
             }
             else if (override > 0) {
-                //console.log('We jumped!');
                 this.programCounter = override;
             }
             else{
                 // override === -1
                 break;
             }
-            //console.log(`\n========= NEXT ITERATION =========\n`);
         }
         
     }
@@ -196,18 +203,17 @@ export class IntCodeComputer{
 
 // main method to run the program
 function main(init1: number, init2: number) {
-    const ComputerA = new IntCodeComputer();
-    const ComputerB = new IntCodeComputer();
+    const Computer = new IntCodeComputer();
     if (init1 !== 0) {
         console.log('------  First Challenge Started -----');
-        ComputerA.loadInstructions(init1);
-        ComputerA.run();
+        Computer.loadInstructions(init1);
+        Computer.run();
         console.log('------  Challend Completed -----------\n\n');
     }
     if (init2 !== 0) {
         console.log('\n\n------  Second Challenge Started -----');
-        ComputerB.loadInstructions(init2);
-        ComputerB.run();
+        Computer.loadInstructions(init2);
+        Computer.run();
         console.log('------  Challend Completed -----------');
     }
 }
