@@ -65,7 +65,46 @@ function firstChallenge() {
     }
     console.log("The total number of orbits is = " + orbitCheckSum);
 }
-function secondChallenge() { }
+function secondChallenge() {
+    // buildSpaceMapAndDictionary();
+    var parent = [];
+    var child = [];
+    for (var p = 0; p < orbitArray.length - 1; p++) {
+        var mapfact = parseOrbit(orbitArray[p]);
+        parent[p] = mapfact.parent;
+        child[p] = mapfact.child;
+    }
+    // create orbit lineages
+    var you_lineage = [];
+    var you_index = child.indexOf('YOU');
+    while (you_index > 0) {
+        // find and record parent
+        var myParent = parent[you_index];
+        you_lineage.push(myParent);
+        // look for your parent's PARENT
+        // will return an index or -1 if not existend
+        you_index = child.indexOf(myParent);
+    }
+    var san_lineage = [];
+    var san_index = child.indexOf('SAN');
+    while (san_index > 0) {
+        var myParent = parent[san_index];
+        san_lineage.push(myParent);
+        san_index = child.indexOf(myParent);
+    }
+    console.log('YOU Lineage = ' + you_lineage.length);
+    console.log('SAN Lineage = ' + san_lineage.length);
+    loop1: for (var y = 0; y < you_lineage.length; y++) {
+        loop2: for (var s = 0; s < san_lineage.length; s++) {
+            if (you_lineage[y] === san_lineage[s]) {
+                console.log("The orbital Shift is...");
+                console.log("YOU + SAN = ?????");
+                console.log(y + " + " + s + " == " + (y + s));
+                break loop1;
+            }
+        }
+    }
+}
 // main method to run the program
 function main(first, second) {
     if (first) {
@@ -79,4 +118,4 @@ function main(first, second) {
         console.log('------  Challend Completed -----------');
     }
 }
-main(true, false);
+main(false, true);
