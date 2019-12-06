@@ -23,6 +23,7 @@ export class IntCodeComputer{
 
     // if the mode is 1, pass by value
     // if the mode is 0, pass by reference
+    // not safe yet
     private loadParamFromMem(opcode_idx: number, instruction: OpCodeInstruction, paramInt: number) {
         let paramMode: number = instruction['p' + paramInt];
         console.log(`param mode is = ${paramMode}`);
@@ -32,7 +33,12 @@ export class IntCodeComputer{
             return this.memory[this.memory[opcode_idx + paramInt]];
         }
     }
+    //not safe yet
 
+
+
+    // supposed to call the method above to dynamically load the data
+    // I had many errors so I postponed working on it and just repeated myself
     private loadRegistersFromMem(pc: number, instruction: OpCodeInstruction) {
         //staging the locations
         let registers = [instruction.getAction()];
@@ -106,13 +112,28 @@ export class IntCodeComputer{
             }
             return 0;
         }
-
-        else if (action === 5 && registers[1] !== 0) {
-            return registers[2];
+        
+        else if (action === 5 ) {
+            if (registers[1] !== 0){
+                // jump to new pc
+                return registers[2];
+            }
+            else{
+                // increment as usual
+                return 0;
+            }
+            
         }
 
-        else if (action === 6 && registers[1] === 0) {
-            return registers[2];
+        else if (action === 6) {
+            if (registers[1] === 0) {
+                // jump to new pc
+                return registers[2];
+            }
+            else {
+                // increment as usual
+                return 0;
+            }
         }
 
         else if (action === 7) {
@@ -121,6 +142,7 @@ export class IntCodeComputer{
             } else {
                 this.memory[registers[3]] = 0;
             }
+            return 0;
         }
 
         else if (action === 8) {
@@ -129,6 +151,7 @@ export class IntCodeComputer{
             } else {
                 this.memory[registers[3]] = 0;
             }
+            return 0;
         }
     }
 
@@ -145,10 +168,7 @@ export class IntCodeComputer{
         while (this.programCounter < maxLength) {
             // Extract IntCode and make Instruction Object
             let code = this.memory[this.programCounter];
-            //console.log(`PC: ${this.programCounter};    memory[225] = ${this.memory[225]}`);
             let instruction = new OpCodeInstruction(code, this.programCounter);
-            //console.log('--- instruction ---');
-            //console.table(instruction);
             increment = instruction.getJump();
             
             // Handles the instruction: FINISH IMPLEMENTATION ABOVE
@@ -159,13 +179,14 @@ export class IntCodeComputer{
                 this.programCounter += increment;
             }
             else if (override > 0) {
+                //console.log('We jumped!');
                 this.programCounter = override;
             }
             else{
                 // override === -1
-                console.log(`SHUTDOWN...`);
                 break;
             }
+            //console.log(`\n========= NEXT ITERATION =========\n`);
         }
         
     }
@@ -175,17 +196,18 @@ export class IntCodeComputer{
 
 // main method to run the program
 function main(init1: number, init2: number) {
-    const Computer = new IntCodeComputer();
+    const ComputerA = new IntCodeComputer();
+    const ComputerB = new IntCodeComputer();
     if (init1 !== 0) {
         console.log('------  First Challenge Started -----');
-        Computer.loadInstructions(init1);
-        Computer.run();
-        console.log('------  Challend Completed -----------');
+        ComputerA.loadInstructions(init1);
+        ComputerA.run();
+        console.log('------  Challend Completed -----------\n\n');
     }
     if (init2 !== 0) {
-        console.log('------  Second Challenge Started -----');
-        Computer.loadInstructions(init2);
-        Computer.run();
+        console.log('\n\n------  Second Challenge Started -----');
+        ComputerB.loadInstructions(init2);
+        ComputerB.run();
         console.log('------  Challend Completed -----------');
     }
 }

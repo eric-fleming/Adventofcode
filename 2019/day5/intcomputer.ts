@@ -112,47 +112,46 @@ function applyNewOpCode(opcode_idx: number, opCodeObj: any) {
 function applyAssemblyOpCode(opcode_idx: number, opCodeObj: any) {
     // cache for readability
     let action = opCodeObj['action'];
-    //staging the locations
-    let p1: number;
-    let p2: number;
-    let p3: number;
+    
+    // registers = [action, p1, p2, p3] 
+    let registers = [action];
     // load params
     if (opCodeObj['p1'] === 1) {
-        p1 = opCodeArray[opcode_idx + 1];
+        registers[1] = opCodeArray[opcode_idx + 1];
     } else if (opCodeObj['p1'] === 0) {
-        p1 = opCodeArray[opCodeArray[opcode_idx + 1]];
+        registers[1] = opCodeArray[opCodeArray[opcode_idx + 1]];
     }
     if (opCodeObj['p2'] === 1) {
-        p2 = opCodeArray[opcode_idx + 2];
+        registers[2] = opCodeArray[opcode_idx + 2];
     } else if (opCodeObj['p2'] === 0) {
-        p2 = opCodeArray[opCodeArray[opcode_idx + 2]];
+        registers[2] = opCodeArray[opCodeArray[opcode_idx + 2]];
     }
     // always a pointer
     if (opCodeObj['p3'] === 1) {
-        p3 = opCodeArray[opcode_idx + 3];
+        registers[3] = opCodeArray[opcode_idx + 3];
     } else if (opCodeObj['p3'] === 0) {
-        p3 = opCodeArray[opcode_idx + 3];
+        registers[3] = opCodeArray[opcode_idx + 3];
     }
 
     // execute
-    if (action === 5 && p1 !== 0) {
-        return p2;
+    if (action === 5 && registers[1] !== 0) {
+        return registers[2];
     }
-    else if (action === 6 && p1 === 0) {
-        return p2;
+    else if (action === 6 && registers[1] === 0) {
+        return registers[2];
     }
     else if (action === 7) {
-        if (p1 < p2) {
-            opCodeArray[p3] = 1;
+        if (registers[1] < registers[2]) {
+            opCodeArray[registers[3]] = 1;
         } else {
-            opCodeArray[p3] = 0;
+            opCodeArray[registers[3]] = 0;
         }
     }
     else if (action === 8) {
-        if (p1 === p2) {
-            opCodeArray[p3] = 1;
+        if (registers[1] === registers[2]) {
+            opCodeArray[registers[3]] = 1;
         } else {
-            opCodeArray[p3] = 0;
+            opCodeArray[registers[3]] = 0;
         }
     }
 
