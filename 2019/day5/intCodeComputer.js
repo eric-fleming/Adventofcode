@@ -8,6 +8,15 @@ var IntCodeComputer = /** @class */ (function () {
         this.programCounter = 0;
         this.memory = [];
     }
+    // saves a copy of memory for later use
+    IntCodeComputer.prototype.saveMemory = function () {
+        return this.memory;
+    };
+    IntCodeComputer.prototype.loadMemory = function (inputVal, oldMemory) {
+        this.memory = oldMemory;
+        this.programCounter = 0;
+        this.input = inputVal;
+    };
     // clears the computer to be used again;
     IntCodeComputer.prototype.reset = function () {
         this.programCounter = 0;

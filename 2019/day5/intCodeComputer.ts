@@ -14,6 +14,17 @@ export class IntCodeComputer{
         this.memory = [];
     }
 
+    // saves a copy of memory for later use
+    saveMemory(){
+        return this.memory;
+    }
+
+    loadMemory(inputVal: number, oldMemory: number[]){
+        this.memory = oldMemory;
+        this.programCounter = 0;
+        this.input = inputVal;
+    }
+
     // clears the computer to be used again;
     reset() {
         this.programCounter = 0;
