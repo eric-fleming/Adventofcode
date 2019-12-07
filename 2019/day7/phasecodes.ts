@@ -1,11 +1,11 @@
-export function generatePermutations(size: number) {
+export function generatePermutations(size: number, seed:number) {
     let items: number[] = [];
     let used: boolean[] = [];
     let permutations: any[] = [];
 
     // initialize
     for (let i = 0; i < size; i++) {
-        items[i] = i;
+        items[i] = i + seed;
         used[i] = false;
     }
 
@@ -44,7 +44,7 @@ export function generatePermutations(size: number) {
 }
 
 function test(){
-    const perms = generatePermutations(5)
+    const perms = generatePermutations(5,0)
     console.table(perms);
     console.log(`---- Number of permutations ----`);
     console.log(perms.length);

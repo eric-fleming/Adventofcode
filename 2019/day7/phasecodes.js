@@ -1,12 +1,12 @@
 "use strict";
 exports.__esModule = true;
-function generatePermutations(size) {
+function generatePermutations(size, seed) {
     var items = [];
     var used = [];
     var permutations = [];
     // initialize
     for (var i = 0; i < size; i++) {
-        items[i] = i;
+        items[i] = i + seed;
         used[i] = false;
     }
     for (var a = 0; a < size; a++) {
@@ -52,7 +52,7 @@ function generatePermutations(size) {
 }
 exports.generatePermutations = generatePermutations;
 function test() {
-    var perms = generatePermutations(5);
+    var perms = generatePermutations(5, 0);
     console.table(perms);
     console.log("---- Number of permutations ----");
     console.log(perms.length);
