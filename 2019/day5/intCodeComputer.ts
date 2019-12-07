@@ -7,6 +7,7 @@ export class IntCodeComputer{
     private memory: number[];
     private programCounter: number;
     private input: number;
+    private output: number; // for day7
 
     constructor(){
         this.programCounter = 0;
@@ -107,10 +108,12 @@ export class IntCodeComputer{
             if(instruction.p1 === 0){
                 // param mode 0 : pass by ref
                 console.log(`output (by ref) : ${this.memory[this.memory[pc + 1]]}`);
+                this.output = this.memory[this.memory[pc + 1]];
             }
             else{
                 // param mode 1 : pass by value
                 console.log(`output (by val) : ${this.memory[pc + 1]}`);
+                this.output = this.memory[pc + 1];
             }
             return 0;
         }
@@ -188,10 +191,12 @@ export class IntCodeComputer{
                 break;
             }
         }
+        return this.output;
         
-    }
+    }//end of run()
+    
 
-}
+}// end of class
 
 
 // main method to run the program
