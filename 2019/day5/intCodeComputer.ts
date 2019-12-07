@@ -162,7 +162,7 @@ export class IntCodeComputer{
 
     // executes the program
     run(){
-        if(!this.input){
+        if(this.input === undefined){
             console.error(`You have not loaded any instructions or initialized the input...`);
         }
 

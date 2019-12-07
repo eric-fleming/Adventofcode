@@ -90,10 +90,12 @@ var IntCodeComputer = /** @class */ (function () {
             if (instruction.p1 === 0) {
                 // param mode 0 : pass by ref
                 console.log("output (by ref) : " + this.memory[this.memory[pc + 1]]);
+                this.output = this.memory[this.memory[pc + 1]];
             }
             else {
                 // param mode 1 : pass by value
                 console.log("output (by val) : " + this.memory[pc + 1]);
+                this.output = this.memory[pc + 1];
             }
             return 0;
         }
@@ -138,7 +140,7 @@ var IntCodeComputer = /** @class */ (function () {
     };
     // executes the program
     IntCodeComputer.prototype.run = function () {
-        if (!this.input) {
+        if (this.input === undefined) {
             console.error("You have not loaded any instructions or initialized the input...");
         }
         var maxLength = this.memory.length;
@@ -163,9 +165,10 @@ var IntCodeComputer = /** @class */ (function () {
                 break;
             }
         }
-    };
+        return this.output;
+    }; //end of run()
     return IntCodeComputer;
-}());
+}()); // end of class
 exports.IntCodeComputer = IntCodeComputer;
 // main method to run the program
 function main(init1, init2) {
