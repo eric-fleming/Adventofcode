@@ -1,6 +1,5 @@
 /*Dependent Modules*/
-import { readInput, inputToArray, inputToNumberArray, inputToStringArray } from '../shared_functions/common';
-import { IntCodeComputer } from '../day5/intCodeComputer';
+import { readInput } from '../shared_functions/common';
 import { generatePermutations } from './phasecodes';
 import { Amplifier } from './amplifier';
 const rawInput = readInput('day7input.txt');
@@ -31,13 +30,13 @@ function firstChallenge(numOfAmplifiers:number, fileName: string) {
     }
 
     console.table(trusterOutputs);
-    /** 
+    
     // trusterOuput list is complete, find max.
-    const max = Math.min(...trusterOutputs);
+    const max = Math.max(...trusterOutputs);
     console.log(`=========================================`);
     console.log(`The maximum Truster Output is ${max}`);
     console.log(`=========================================`);
-    */
+    
 
 }
 

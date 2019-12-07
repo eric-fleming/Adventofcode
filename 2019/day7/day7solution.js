@@ -25,13 +25,11 @@ function firstChallenge(numOfAmplifiers, fileName) {
         console.log("---- Next Phase Code ----");
     }
     console.table(trusterOutputs);
-    /**
     // trusterOuput list is complete, find max.
-    const max = Math.min(...trusterOutputs);
-    console.log(`=========================================`);
-    console.log(`The maximum Truster Output is ${max}`);
-    console.log(`=========================================`);
-    */
+    var max = Math.max.apply(Math, trusterOutputs);
+    console.log("=========================================");
+    console.log("The maximum Truster Output is " + max);
+    console.log("=========================================");
 }
 function secondChallenge() { }
 // main method to run the program

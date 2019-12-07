@@ -1,16 +1,14 @@
 /*Dependent Modules*/
-import { readInput } from '../shared_functions/common';
-import { IntCodeComputer } from '../day5/intCodeComputer';
-const rawInput = readInput('day7input.txt');
-
+import { AmpCodeComputer } from './intCodeComputer';
 
 export class Amplifier{
 
     private inputSignal: number;
     private outputSignal: number;
-    private intCodeComputer: IntCodeComputer;
+    private intCodeComputer: AmpCodeComputer;
     private opcodeFileName: string;
     private phaseSetting: number;
+    private oldMemory: number [];
     //private nextAmplifier: any; // could be Amp || null
 
     constructor(ps: number, inputVal: number, file: string){
@@ -21,8 +19,10 @@ export class Amplifier{
     }
 
     initialize(){
-        this.intCodeComputer = new IntCodeComputer(); 
-        this.intCodeComputer.loadInstructions(this.inputSignal, this.opcodeFileName);
+        this.intCodeComputer = new AmpCodeComputer(); 
+        this.intCodeComputer.loadInstructions(this.phaseSetting, this.inputSignal, this.opcodeFileName);
+        //this.intCodeComputer.run();
+        //this.oldMemory = this.intCodeComputer.saveMemory();
     }
 
     getOutputSignal(){
@@ -32,6 +32,7 @@ export class Amplifier{
     run(){
         console.log(`started Amp`);
         this.initialize();
+        this.intCodeComputer.run();
         this.outputSignal = this.intCodeComputer.run();
         if (this.outputSignal !== undefined){
             console.log(`obtained output`);
