@@ -2,33 +2,43 @@
 exports.__esModule = true;
 /*Dependent Modules*/
 var common_1 = require("../shared_functions/common");
-var intCodeComputer_1 = require("../day5/intCodeComputer");
 var phasecodes_1 = require("./phasecodes");
+var amplifier_1 = require("./amplifier");
 var rawInput = common_1.readInput('day7input.txt');
-function firstChallenge(numOfAmplifiers) {
+function firstChallenge(numOfAmplifiers, fileName) {
     var phasecodes = phasecodes_1.generatePermutations(numOfAmplifiers);
     //console.table(phasecodes);
-    var Computer = new intCodeComputer_1.IntCodeComputer();
-    var codes = 0;
+    var trusterOutputs = [];
     for (var p = 0; p < phasecodes.length; p++) {
+        var nextInputSignal = 0; // set this to the next outputSignal
+        var lastOutput = void 0;
         for (var a = 0; a < numOfAmplifiers; a++) {
-            var input = phasecodes[p][a];
-            if (input !== undefined) {
-                codes++;
+            var phaseSetting = phasecodes[p][a];
+            var Amp = new amplifier_1.Amplifier(phaseSetting, nextInputSignal, fileName);
+            Amp.run();
+            nextInputSignal = Amp.getOutputSignal();
+            if (a === (numOfAmplifiers - 1)) {
+                lastOutput = nextInputSignal;
             }
         }
+        trusterOutputs.push(lastOutput);
+        console.log("---- Next Phase Code ----");
     }
-    console.log(codes);
-    //Computer.loadInstructions(permuation, 'day7input.txt');
-    //Computer.run();
-    //Computer.reset();
+    console.table(trusterOutputs);
+    /**
+    // trusterOuput list is complete, find max.
+    const max = Math.min(...trusterOutputs);
+    console.log(`=========================================`);
+    console.log(`The maximum Truster Output is ${max}`);
+    console.log(`=========================================`);
+    */
 }
 function secondChallenge() { }
 // main method to run the program
 function main(first, second) {
     if (first) {
         console.log('------  First Challenge Started ------');
-        firstChallenge(5);
+        firstChallenge(5, 'day7input.txt');
         console.log('------  Challend Completed -----------');
     }
     if (second) {
