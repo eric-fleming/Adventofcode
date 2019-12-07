@@ -15,9 +15,9 @@ var IntCodeComputer = /** @class */ (function () {
         this.input = undefined;
     };
     // initializes the object
-    IntCodeComputer.prototype.loadInstructions = function (inputVal) {
+    IntCodeComputer.prototype.loadInstructions = function (inputVal, file) {
         this.reset();
-        var rawInput = common_1.readInput('day5input.txt');
+        var rawInput = common_1.readInput(file);
         this.memory = common_1.inputToArray(rawInput, 'number', ',');
         this.input = inputVal; // 1 or 5
     };
@@ -172,13 +172,13 @@ function main(init1, init2) {
     var Computer = new IntCodeComputer();
     if (init1 !== 0) {
         console.log('------  First Challenge Started -----');
-        Computer.loadInstructions(init1);
+        Computer.loadInstructions(init1, 'day5input.txt');
         Computer.run();
         console.log('------  Challend Completed -----------\n\n');
     }
     if (init2 !== 0) {
         console.log('\n\n------  Second Challenge Started -----');
-        Computer.loadInstructions(init2);
+        Computer.loadInstructions(init2, 'day5input.txt');
         Computer.run();
         console.log('------  Challend Completed -----------');
     }
