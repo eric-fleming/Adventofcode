@@ -1,5 +1,5 @@
 /*Dependent Modules*/
-import { AmpCodeComputer } from './intCodeComputer';
+import { AmpCodeComputer } from './ampCodeComputer';
 
 export class Amplifier{
 
@@ -8,7 +8,6 @@ export class Amplifier{
     private intCodeComputer: AmpCodeComputer;
     private opcodeFileName: string;
     private phaseSetting: number;
-    private oldMemory: number [];
     //private nextAmplifier: any; // could be Amp || null
 
     constructor(ps: number, inputVal: number, file: string){
@@ -21,8 +20,6 @@ export class Amplifier{
     initialize(){
         this.intCodeComputer = new AmpCodeComputer(); 
         this.intCodeComputer.loadInstructions(this.phaseSetting, this.inputSignal, this.opcodeFileName);
-        //this.intCodeComputer.run();
-        //this.oldMemory = this.intCodeComputer.saveMemory();
     }
 
     getOutputSignal(){
@@ -30,14 +27,11 @@ export class Amplifier{
     }
 
     run(){
-        console.log(`started Amp`);
+        //console.log(`started Amp`);
         this.initialize();
         this.intCodeComputer.run();
         this.outputSignal = this.intCodeComputer.run();
-        if (this.outputSignal !== undefined){
-            console.log(`obtained output`);
-        }
-        else{
+        if (this.outputSignal === undefined){
             console.log(`no output calculated`);
         }
 
