@@ -17,18 +17,6 @@ export class AmpCodeComputer{
         this.memory = [];
     }
 
-    // saves a copy of memory for later use
-    saveMemory(){
-        return this.memory;
-    }
-
-    loadMemory(phaseVal: number, inputVal: number, oldMemory: number[]){
-        this.phaseInput = phaseVal;
-        this.memory = oldMemory;
-        this.programCounter = 0;
-        this.input = inputVal;
-    }
-
     // clears the computer to be used again;
     reset() {
         this.programCounter = 0;
@@ -125,10 +113,12 @@ export class AmpCodeComputer{
                 if (instruction.p1 === 0) {
                     // param mode 0 : pass by ref
                     this.memory[this.memory[pc + 1]] = this.phaseInput;
+                    this.phaseUsed = true;
                 }
                 else {
                     // param mode 1 : pass by value
                     this.input = this.memory[pc + 1];
+                    this.phaseUsed = true;
                 }
 
             }

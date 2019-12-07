@@ -9,16 +9,6 @@ var AmpCodeComputer = /** @class */ (function () {
         this.phaseUsed = false;
         this.memory = [];
     }
-    // saves a copy of memory for later use
-    AmpCodeComputer.prototype.saveMemory = function () {
-        return this.memory;
-    };
-    AmpCodeComputer.prototype.loadMemory = function (phaseVal, inputVal, oldMemory) {
-        this.phaseInput = phaseVal;
-        this.memory = oldMemory;
-        this.programCounter = 0;
-        this.input = inputVal;
-    };
     // clears the computer to be used again;
     AmpCodeComputer.prototype.reset = function () {
         this.programCounter = 0;
@@ -104,10 +94,12 @@ var AmpCodeComputer = /** @class */ (function () {
                 if (instruction.p1 === 0) {
                     // param mode 0 : pass by ref
                     this.memory[this.memory[pc + 1]] = this.phaseInput;
+                    this.phaseUsed = true;
                 }
                 else {
                     // param mode 1 : pass by value
                     this.input = this.memory[pc + 1];
+                    this.phaseUsed = true;
                 }
             }
             return 0;
