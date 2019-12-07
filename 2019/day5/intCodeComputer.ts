@@ -211,4 +211,4 @@ function main(init1: number, init2: number) {
     }
 }
 
-main(1, 5);
+//main(1, 5);
