@@ -128,12 +128,12 @@ export class AmpCodeComputer{
         else if (action === 4) {
             if(instruction.p1 === 0){
                 // param mode 0 : pass by ref
-                console.log(`output (by ref) : ${this.memory[this.memory[pc + 1]]}`);
+                //console.log(`output (by ref) : ${this.memory[this.memory[pc + 1]]}`);
                 this.output = this.memory[this.memory[pc + 1]];
             }
             else{
                 // param mode 1 : pass by value
-                console.log(`output (by val) : ${this.memory[pc + 1]}`);
+                //console.log(`output (by val) : ${this.memory[pc + 1]}`);
                 this.output = this.memory[pc + 1];
             }
             return 0;
