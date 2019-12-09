@@ -12,6 +12,7 @@ function extractLayers(imageData, width, height) {
     }
     return layers;
 }
+exports.extractLayers = extractLayers;
 function firstChallenge(fileName, width, height) {
     var imageData = common_1.readInput(fileName);
     var layers = extractLayers(imageData, width, height);
@@ -57,9 +58,9 @@ function secondChallenge(fileName, width, height) {
     // The layers of the image
     var layers = extractLayers(imageData, width, height);
     var image = layers[0];
-    printLayer(image, width, height);
     //console.table(layers);
     /**
+    printLayer(image,width,height);
     for (let p = 0; p < layers.length; p++) {
         printLayer(layers[p], width, height);
     }*/
@@ -73,13 +74,12 @@ function secondChallenge(fileName, width, height) {
                 image = temp;
             }
         }
-        /*
         if (image.indexOf('2') === -1) {
-            console.log(`No 2's after layer ${p}`);
+            console.log("No 2's after layer " + p);
             break loop1;
-        }*/
+        }
     }
-    console.log('---- Executing test ----');
+    console.log('---- Decoding the stacked layers ----');
     printLayer(image, width, height);
 }
 function printLayer(layer, width, height) {
@@ -94,6 +94,7 @@ function printLayer(layer, width, height) {
     }
     console.log("======\n");
 }
+exports.printLayer = printLayer;
 function readable(character) {
     if (character === '0') {
         return ' ';
@@ -116,35 +117,3 @@ function main(first, second) {
     }
 }
 main(false, true);
-function test() {
-    var imageData = '0222112222120000';
-    var width = 2;
-    var height = 2;
-    // facts
-    var layerSize = width * height;
-    // The layers of the image
-    var layers = extractLayers(imageData, width, height);
-    var image = layers[0];
-    console.table(layers);
-    for (var p = 0; p < layers.length; p++) {
-        printLayer(layers[p], 2, 2);
-    }
-    loop1: for (var p = 1; p < layers.length; p++) {
-        var currentLayer = layers[p];
-        printLayer(currentLayer, 2, 2);
-        loop2: for (var r = 0; r < layerSize; r++) {
-            if (image[r] === '2') {
-                var temp = image.substring(0, r) + currentLayer[r] + image.substring(r + 1);
-                image = temp;
-            }
-        }
-        if (image.indexOf('2') === -1) {
-            console.log("No 2's after layer " + p);
-            break loop1;
-        }
-    }
-    console.log("---- loop has ended ----");
-    console.log('Executing test');
-    printLayer(image, width, height);
-}
-//test();
