@@ -9,7 +9,7 @@ var OpCodeInstruction = /** @class */ (function () {
         if (this.action !== 99) {
             // everyone else has a p1
             this.p1 = params % 10;
-            if (this.action === 3 || this.action === 4) {
+            if (this.action === 3 || this.action === 4 || this.action === 9) {
                 this.jump = 2;
             }
             else if (this.action === 5 || this.action === 6) {
