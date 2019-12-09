@@ -21,4 +21,4 @@ function main(first: boolean, second: boolean) {
     }
 }
 
-main(true, true);
+main(true, false);
