@@ -81,12 +81,12 @@ export class RelativeIntCodeComputer {
                         registers[i] = this.memory[pc + i];
                     }
                     if (instruction.p3 === 1) { 
+                        //should never happen
                         registers[i] = this.memory[pc + i];
                     }
                     if (instruction.p3 === 2) { 
-                        registers[i] = this.memory[this.relativeBase + this.memory[pc + 1]];
+                        registers[i] = this.memory[this.relativeBase + this.memory[pc + i]];
                     }
-                    registers[i] = this.memory[pc + i];
                 }
                 // not the output
                 else {
@@ -130,6 +130,7 @@ export class RelativeIntCodeComputer {
             else if (instruction.p1 === 1) {
                 // param mode 1 : pass by value
                 // not possible
+                this.memory[this.memory[pc + 1]] = this.input;
             }
             else if (instruction.p1 === 2){
                 // param mode 2: relative
@@ -199,7 +200,15 @@ export class RelativeIntCodeComputer {
         }
         else if(action === 9){
             // add parameter to the relative base.
-            this.relativeBase += registers[1];
+            if (instruction.p1 === 0) { 
+                this.relativeBase += this.memory[this.memory[pc + 1]]
+            }
+            if (instruction.p1 === 1) { 
+                this.relativeBase += this.memory[pc + 1];
+            }
+            if (instruction.p1 === 2) { 
+                this.relativeBase += this.memory[this.relativeBase + this.memory[pc + 1]]
+            }
             return 0;
         }
     }
@@ -251,7 +260,8 @@ function main(init1: number, init2: number) {
     if (init1 !== 0) {
         console.log('------  First Challenge Started -----');
         Computer.loadInstructions(init1, 'day9input.txt');
-        Computer.run();
+        let output = Computer.run();
+        console.log(`output is = ${output}`);
         console.log('------  Challend Completed -----------\n\n');
     }
     if (init2 !== 0) {
@@ -262,29 +272,4 @@ function main(init1: number, init2: number) {
     }
 }
 
-//main(1, 0);
-
-
-const testInputs = {
-    't1': '109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99',
-    't2': '1102,34915192,34915192,7,4,7,99,0',
-    't3': '104,1125899906842624,99'
-};
-
-function test(init1: number) {
-    const Computer = new RelativeIntCodeComputer();
-    if (init1 !== 0) {
-        console.log('------  Test Started -----');
-        Computer.loadInstructions(init1, 'day9input.txt');
-        let output = Computer.run();
-        console.log('\n\n------  Test Completed -----------\n');
-        console.log(`output is = ${output}`);
-    }
-
-}
-
-//tests/t1.txt
-//tests/t2.txt
-//tests/t3.txt
-//../day5/day5input.txt
-test(1);
+main(1, 0);
