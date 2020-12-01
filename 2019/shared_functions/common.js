@@ -82,6 +82,26 @@ function inputToStringArray(fileName, splitChar) {
     return inputToArray(rawFile, 'string', splitChar);
 }
 exports.inputToStringArray = inputToStringArray;
+function inputToMultiStringArray(fileName, rowSplitChar) {
+    var splitIntoRows = inputToStringArray(fileName, rowSplitChar);
+    var multiArray = [];
+    for (var i = 0; i < splitIntoRows.length - 1; i++) {
+        var rowString = splitIntoRows[i];
+        var currentRow = [];
+        for (var j = 0; j < splitIntoRows[0].length; j++) {
+            if (rowString === undefined || rowString === '' || rowString === '\n' || rowString === '\r\n') {
+                continue;
+            }
+            else {
+                var char = rowString.substring(j, j + 1);
+                currentRow.push(char);
+            }
+        }
+        multiArray.push(currentRow);
+    }
+    return multiArray;
+}
+exports.inputToMultiStringArray = inputToMultiStringArray;
 function getAllIndexes(arr, val) {
     var indexes = [], i;
     for (i = 0; i < arr.length; i++)

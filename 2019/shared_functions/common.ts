@@ -87,6 +87,27 @@ export function inputToStringArray(fileName: string, splitChar: string) {
     return inputToArray(rawFile, 'string', splitChar);
 }
 
+export function inputToMultiStringArray(fileName: string, rowSplitChar: string){
+    const splitIntoRows = inputToStringArray(fileName, rowSplitChar);
+    let multiArray: string [][] = [];
+    for(let i = 0; i < splitIntoRows.length - 1; i++){
+        let rowString = splitIntoRows[i];
+        let currentRow: string[] = [];
+        for (let j = 0; j < splitIntoRows[0].length; j++){
+            if (rowString === undefined || rowString === '' || rowString === '\n' || rowString === '\r\n'){
+                continue;
+            }
+            else{
+                let char = rowString.substring(j,j+1);
+                currentRow.push(char);
+            }
+        }
+        multiArray.push(currentRow);
+    }
+
+    return multiArray;
+}
+
 
 
 
