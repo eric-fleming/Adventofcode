@@ -44,6 +44,20 @@ func ReadInputText(filename string) []string {
 	return text
 }
 
+// ReadInputTextParseAsArray takes an text file and outputs an array of string arrays [][]string
+// You can use any splitting character
+func ReadInputTextParseAsArray(filename string, splitChar string) [][]string {
+	lines := ReadInputText(filename)
+
+	var multiarray [][]string
+	for _, line := range lines {
+		temp := strings.Split(line, splitChar)
+		multiarray = append(multiarray, temp)
+	}
+
+	return multiarray
+}
+
 // ReadInputArray reads in a file and spits out an array
 func ReadInputArray(filename, delimiter string) []string {
 	file, err := os.Open(filename)
