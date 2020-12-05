@@ -112,7 +112,7 @@ func main() {
 	fmt.Println("-*-*-*-*-*- MERRY CHRISTMAS! -*-*-*-*-*-")
 	fmt.Println("-*-*-*-*--*-*-*-*-*--*-*-*-*-*--*-*-*-*-")
 	part1(flightArrangements)
-	part2()
+	part2(flightArrangements)
 
 }
 
@@ -128,6 +128,32 @@ func part1(boardingInfo []Seat) {
 	fmt.Printf("MAX SEAT is %v", max)
 }
 
-func part2() {
+func part2(boardingInfo []Seat) {
 	fmt.Println("\n-*-*-*-*-*- Part 2! -*-*-*-*-*-")
+
+	var seatNumbers []int
+	for _, seat := range boardingInfo {
+		seatNumbers = append(seatNumbers, seat.Num)
+	}
+
+	seatNumbers = common.SortInts(seatNumbers)
+	//common.Show(seatNumbers, "int")
+
+	var missingSeats []int
+
+	for i := 1; i < len(seatNumbers)-1; i++ {
+		before := seatNumbers[i-1]
+		val := seatNumbers[i]
+		after := seatNumbers[i+1]
+
+		if before != val-1 {
+			missingSeats = append(missingSeats, val-1)
+		}
+		if after != val+1 {
+			missingSeats = append(missingSeats, val+1)
+		}
+	}
+
+	common.Show(missingSeats, "int")
+
 }
