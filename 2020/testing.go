@@ -9,10 +9,10 @@ import (
 func main() {
 	fmt.Println("Testing validate")
 
-	nums := "asdfasdfpasdfASDFoipnjandiou"
+	nums := "asdfasdfpas$dfASD123Foipnjandiou"
 	result := true
 	for _, val := range nums {
-		result = result && common.IsLower(val)
+		result = result && common.IsAlphaNum(val)
 	}
 	fmt.Printf("%v\n", result)
 
