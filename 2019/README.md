@@ -1,10 +1,25 @@
-# Advent of Code 2019
-<a href="https://adventofcode.com/2019/" target="_blank">Home Page</a>
+# <a href="https://adventofcode.com/2019/" target="_blank">Advent of Code 2019</a>
 
 ## Background Story
 Santa has become stranded at the edge of the Solar System while delivering presents to other planets! To accurately calculate his position in space, safely align his warp drive, and return to Earth in time to save Christmas, he needs you to bring him measurements from fifty stars.
 
 Collect stars by solving puzzles. Two puzzles will be made available on each day in the Advent calendar; the second puzzle is unlocked when you complete the first. Each puzzle grants one star. Good luck!
+
+
+## About my 2019 Attempt
+
+I chose to do most of what I could in TypeScript / Node.  For every TS file there is a compiled JS file which Node will execute to run the program.  Compile in the terminal, run from the terminal.
+
+    $ tsc file.ts
+    $ node file.js
+
+There is a main() function at the bottom of each solution which decides whether to run each challenge, both, or neither if you are trying to test helper functions.
+
+
+## Moving Forward
+
+I image at some point I will switch over to Java to run the programs for performance.  I completed a concurrent programming class and I will be excited to see if I can write some concurrent code.  the one downside is I honestly hate reading from the file system in Java so meh...
+
 
 ## Individual Pages
 *  <a href="https://adventofcode.com/2019/day/1" target="_blank">Day 1 page</a>
@@ -32,3 +47,4 @@ Collect stars by solving puzzles. Two puzzles will be made available on each day
 *  <a href="https://adventofcode.com/2019/day/23" target="_blank">Day 23 page</a>
 *  <a href="https://adventofcode.com/2019/day/24" target="_blank">Day 24 page</a>
 *  <a href="https://adventofcode.com/2019/day/25" target="_blank">Day 25 page</a>
+
