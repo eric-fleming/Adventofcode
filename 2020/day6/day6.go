@@ -53,10 +53,23 @@ func parseResponses(inputText string) map[string]int {
 	return responses
 }
 
-// Total returns the total number of unique questions answered a Passenger Group
-func (pg *PassengerGroup) Total() int {
-	return -1
+// TotalQuestionCount returns the total number of unique questions answered a Passenger Group
+func (pg *PassengerGroup) TotalQuestionCount() int {
+	return len(pg.Responses)
 }
+
+// TotalUnaminousQuestionCount returns the number of questions that everyone answered yes
+func (pg *PassengerGroup) TotalUnaminousQuestionCount() int {
+	total := 0
+	for _, answers := range pg.Responses {
+		if answers == pg.Size {
+			total++
+		}
+	}
+
+	return total
+}
+
 func main() {
 
 	// Read the file
@@ -95,7 +108,7 @@ func main() {
 	fmt.Println("-*-*-*-*-*- MERRY CHRISTMAS! -*-*-*-*-*-")
 	fmt.Println("-*-*-*-*--*-*-*-*-*--*-*-*-*-*--*-*-*-*-")
 	part1(groups)
-	part2()
+	part2(groups)
 
 }
 
@@ -106,9 +119,16 @@ func part1(groups []PassengerGroup) {
 		num := len(group.Responses)
 		count += num
 	}
-	fmt.Printf("The total # of Q's answered by groups = %d\n", count)
+	fmt.Printf("The total # of Q's where ANYONE in a group answered YES = %d\n", count)
 }
 
-func part2() {
+func part2(groups []PassengerGroup) {
 	fmt.Println("\n-*-*-*-*-*- Part 2! -*-*-*-*-*-")
+	count := 0
+	for _, group := range groups {
+		count += group.TotalUnaminousQuestionCount()
+	}
+
+	fmt.Printf("The total # of Q's where EVERYONE in a group answered YES = %d\n", count)
+
 }
