@@ -58,6 +58,31 @@ func ReadInputTextParseAsArray(filename string, splitChar string) [][]string {
 	return multiarray
 }
 
+// ReadInputTextMultipleLines assumes that text in paragraphs is all related to one input
+// Specify a concatChar to go between the lines that you are appending onto a single line
+func ReadInputTextMultipleLines(filename string, concatChar string) []string {
+	text := ReadInputText(filename)
+
+	// loop through lines by group onto one line
+	tempLine := ""
+	var inputLines []string
+	for _, line := range text {
+		if line != "" {
+			// compiles into one line
+			trimmedLine := strings.TrimSuffix(line, "\n")
+			tempLine = tempLine + trimmedLine + concatChar
+		} else {
+			// appends to list and resets
+			inputLines = append(inputLines, tempLine)
+			tempLine = ""
+		}
+	}
+	// save the last one when it hits the end of file
+	inputLines = append(inputLines, tempLine)
+
+	return inputLines
+}
+
 // ReadInputArray reads in a file and spits out an array
 func ReadInputArray(filename, delimiter string) []string {
 	file, err := os.Open(filename)
