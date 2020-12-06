@@ -94,15 +94,15 @@ func main() {
 	// save the last one when it hits the end of file
 	inputLines = append(inputLines, tempLine)
 
-	common.Show(inputLines, "string")
-	fmt.Printf("# of lines = %d\n", len(inputLines))
+	//common.Show(inputLines, "string")
+	//fmt.Printf("# of lines = %d\n", len(inputLines))
 	var groups []PassengerGroup
 	for _, line := range inputLines {
 		g := NewPassengerGroup(line)
 		groups = append(groups, g)
 	}
-	fmt.Printf("# of groups = %d\n", len(groups))
-	fmt.Printf("%v", groups[len(groups)-1])
+	//fmt.Printf("# of groups = %d\n", len(groups))
+	//fmt.Printf("%v", groups[len(groups)-1])
 
 	fmt.Println("-*-*-*-*--*-*-*-*-*--*-*-*-*-*--*-*-*-*-")
 	fmt.Println("-*-*-*-*-*- MERRY CHRISTMAS! -*-*-*-*-*-")
@@ -116,8 +116,7 @@ func part1(groups []PassengerGroup) {
 	fmt.Println("\n-*-*-*-*-*- Part 1! -*-*-*-*-*-")
 	count := 0
 	for _, group := range groups {
-		num := len(group.Responses)
-		count += num
+		count += group.TotalQuestionCount()
 	}
 	fmt.Printf("The total # of Q's where ANYONE in a group answered YES = %d\n", count)
 }
