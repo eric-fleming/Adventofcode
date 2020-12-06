@@ -1,2 +1,16 @@
-// exclude dependcies
+# exclude JS dependcies
 node_modules
+
+# GO Exclusions
+# executables
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
