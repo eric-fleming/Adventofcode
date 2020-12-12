@@ -14,6 +14,8 @@ type Ship struct {
 	orientation string
 	Px          int
 	Py          int
+	waypx       int
+	waypy       int
 }
 
 // Instruction tells the ship how to change position
@@ -24,7 +26,7 @@ type Instruction struct {
 
 // NewInstruction is a constructor
 func NewInstruction(text string) Instruction {
-	fmt.Println("input text for instruction : " + text)
+	//fmt.Println("input text for instruction : " + text)
 	act := string(text[0:1])
 	val, _ := strconv.Atoi(text[1:])
 
@@ -47,13 +49,20 @@ func NewShip(n, dir string) (*Ship, error) {
 		orientation: dir,
 		Px:          0,
 		Py:          0,
+		waypx:       0,
+		waypy:       0,
 	}, nil
+}
+
+func (s *Ship) setWayPoint(px, py int) {
+	s.waypx = px
+	s.waypy = py
 }
 
 // Move handles the instructions
 func (s *Ship) Move(instruction string) {
 	command := NewInstruction(instruction)
-	fmt.Printf("my command : %v\n", command)
+	//fmt.Printf("my command : %v\n", command)
 	switch command.Action {
 	case "N":
 		s.Py = s.Py + command.Value
@@ -76,6 +85,57 @@ func (s *Ship) Move(instruction string) {
 		panic("Did not recognize direction")
 
 	}
+}
+
+// MoveWithWayPoint handles the instructions for PART 2
+func (s *Ship) MoveWithWayPoint(instruction string) {
+	command := NewInstruction(instruction)
+	//fmt.Printf("my command : %v\n", command)
+	switch command.Action {
+	case "N":
+		s.waypy = s.waypy + command.Value
+	case "S":
+		s.waypy = s.waypy - command.Value
+	case "E":
+		s.waypx = s.waypx + command.Value
+	case "W":
+		s.waypx = s.waypx - command.Value
+	case "F":
+		// move ship
+		s.Px = s.Px + command.Value*s.waypx
+		s.Py = s.Py + command.Value*s.waypy
+	case "B":
+		s.MoveInDirection(oppositeDirection(s.orientation), command.Value)
+	case "R":
+		s.rotateWayPoint(command)
+	case "L":
+		s.rotateWayPoint(command)
+	default:
+		fmt.Printf("action : %v\n", command.Action)
+		panic("Did not recognize direction")
+
+	}
+}
+
+func (s *Ship) rotateWayPoint(instrction Instruction) {
+	if instrction.Action == "R" && instrction.Value == 90 || instrction.Action == "L" && instrction.Value == 270 {
+		temp := s.waypx
+		s.waypx = s.waypy
+		s.waypy = -1 * temp
+	}
+	if instrction.Value == 180 {
+		s.waypx = -1 * s.waypx
+		s.waypy = -1 * s.waypy
+	}
+	if instrction.Action == "R" && instrction.Value == 270 || instrction.Action == "L" && instrction.Value == 90 {
+		temp := s.waypx
+		s.waypx = -1 * s.waypy
+		s.waypy = temp
+	}
+	if instrction.Value == 300 {
+		return
+	}
+
 }
 
 func (s *Ship) changeOrientation(instrction Instruction) {
@@ -107,7 +167,7 @@ func (s *Ship) changeOrientation(instrction Instruction) {
 	if newOrientInd < 0 {
 		newOrientInd = newOrientInd + 4
 	}
-	fmt.Printf("old orient = %v\tnew orient = %v\tinstruction = %v", orientInd, newOrientInd, instrction)
+	//fmt.Printf("old orient = %v\tnew orient = %v\tinstruction = %v", orientInd, newOrientInd, instrction)
 	s.orientation = orientationSet[newOrientInd]
 
 }
@@ -150,17 +210,22 @@ func main() {
 	// Read the file
 	filename := "day12input.txt"
 	text := common.ReadInputText(filename)
+
+	//Example
+	//examplefile := "example.txt"
+	//example := common.ReadInputText(examplefile)
 	//common.Show(text, "string")
 	//fmt.Printf("line:\t%v\n", text[0])
 	fmt.Println("-*-*-*-*--*-*-*-*-*--*-*-*-*-*--*-*-*-*-")
 	fmt.Println("-*-*-*-*-*- MERRY CHRISTMAS! -*-*-*-*-*-")
 	fmt.Println("-*-*-*-*--*-*-*-*-*--*-*-*-*-*--*-*-*-*-")
 	part1(text)
-	part2()
+	part2(text)
 
 }
 
 func part1(inputText []string) {
+	fmt.Println("\n-*-*-*-*-*- Part 1! -*-*-*-*-*-")
 	// create ship
 	ship, _ := NewShip("S.S. Flem", "E")
 	fmt.Printf("Made a ship: %v\n", ship)
@@ -174,8 +239,26 @@ func part1(inputText []string) {
 	currentPosition := common.NewPoint(float64(ship.Px), float64(ship.Py))
 	dist := currentPosition.ManhattanDistance(origin)
 	fmt.Printf("The ship moved a total dist of %v\n", dist)
+	fmt.Println("\n-*-*-*-*-*- Finished! -*-*-*-*-*-")
 }
 
-func part2() {
+func part2(inputText []string) {
+	fmt.Println("\n-*-*-*-*-*- Part 2! -*-*-*-*-*-")
+	ship, _ := NewShip("S.S. Flem", "E")
+	ship.setWayPoint(10, 1)
+
+	// move the ship
+	fmt.Printf("READ: null\t\tShip : (%v, %v)\t\t\tWayPt : (%v, %v)\n", ship.Px, ship.Py, ship.waypx, ship.waypy)
+	for _, command := range inputText {
+		ship.MoveWithWayPoint(command)
+		fmt.Printf("READ : %v\t\tShip : (%v, %v)\t\tWayPt : (%v, %v)\n", command, ship.Px, ship.Py, ship.waypx, ship.waypy)
+	}
+
+	// calc dist
+	origin := common.NewPoint(0.0, 0.0)
+	currentPosition := common.NewPoint(float64(ship.Px), float64(ship.Py))
+	dist := currentPosition.ManhattanDistance(origin)
+	fmt.Printf("The ship moved a total dist of %v\n", dist)
+	fmt.Println("\n-*-*-*-*-*- Finished! -*-*-*-*-*-")
 
 }
