@@ -4,6 +4,7 @@
   "description": "coding for fun",
   "main": "index.js",
   "devDependencies": {
+    "@tsconfig/node16": "^1.0.2",
     "@types/node": "^16.11.11"
   },
   "scripts": {
@@ -21,5 +22,9 @@
   "bugs": {
     "url": "https://github.com/mrfleming/Adventofcode/issues"
   },
-  "homepage": "https://github.com/mrfleming/Adventofcode#readme"
+  "homepage": "https://github.com/mrfleming/Adventofcode#readme",
+  "dependencies": {
+    "boxen": "^6.2.1",
+    "chalk": "^4.1.2"
+  }
 }
