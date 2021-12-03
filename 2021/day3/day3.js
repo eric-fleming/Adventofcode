@@ -59,7 +59,7 @@ function calcEpsilonRate(binary) {
 }
 function part1() {
     var gammaRate = calcGammaRate(rawInput);
-    var epsilonRate = calcEpsilonRate(gammaRate);
+    var epsilonRate = calcEpsilonRate(rawInput);
     log("gamma rate: ".concat(gammaRate));
     log("epsilon rate: ".concat(epsilonRate));
     var product = parseInt(gammaRate, 2) * parseInt(epsilonRate, 2);
@@ -68,7 +68,7 @@ function part1() {
 }
 function mostCommonBit(binary, digit) {
     var gamma = calcGammaRate(binary);
-    log(gamma);
+    //log(gamma)
     var bit = gamma[digit];
     if (bit == "D") {
         return "1";
@@ -90,9 +90,9 @@ function calcOxygenRating(binary) {
     var winners = __spreadArray([], binary, true);
     for (var digit = 0; digit < digits; digit++) {
         var mostCommon = mostCommonBit(winners, digit);
-        log("most common bit\t digit=".concat(digit, "\t bit=").concat(mostCommon));
+        //log(`most common bit\t digit=${digit}\t bit=${mostCommon}`);
         winners = selectWinners(winners, digit, mostCommon);
-        log(winners);
+        //log(winners)
         if (winners.length == 1) {
             return winners[0];
         }
@@ -101,7 +101,7 @@ function calcOxygenRating(binary) {
 }
 function leastCommonBit(binary, digit) {
     var epsilon = calcEpsilonRate(binary);
-    console.log(epsilon);
+    //console.log(epsilon)
     var bit = epsilon[digit];
     if (bit == "D") {
         return "0";
@@ -114,9 +114,9 @@ function calcCarbonRating(binary) {
     var winners = __spreadArray([], binary, true);
     for (var digit = 0; digit < digits; digit++) {
         var leastCommon = leastCommonBit(winners, digit);
-        log("least common bit\t digit=".concat(digit, "\t bit=").concat(leastCommon));
+        //log(`least common bit\t digit=${digit}\t bit=${leastCommon}`);
         winners = selectWinners(winners, digit, leastCommon);
-        log(winners);
+        //log(winners)
         if (winners.length == 1) {
             return winners[0];
         }
@@ -149,4 +149,4 @@ function main(first, second) {
         log('\n\n');
     }
 }
-main(false, true);
+main(true, true);

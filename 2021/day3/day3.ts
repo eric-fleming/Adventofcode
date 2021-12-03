@@ -60,7 +60,7 @@ function calcEpsilonRate(binary): string{
 function part1() {
 
     let gammaRate = calcGammaRate(rawInput);
-    let epsilonRate = calcEpsilonRate(gammaRate);
+    let epsilonRate = calcEpsilonRate(rawInput);
 
     log(`gamma rate: ${gammaRate}`);
     log(`epsilon rate: ${epsilonRate}`);
@@ -72,7 +72,7 @@ function part1() {
 
 function mostCommonBit(binary,digit){
     let gamma = calcGammaRate(binary);
-    log(gamma)
+    //log(gamma)
     let bit = gamma[digit]
     if(bit == "D"){
         return "1"
@@ -100,9 +100,9 @@ function calcOxygenRating(binary){
 
     for (let digit = 0; digit < digits; digit++){
         let mostCommon = mostCommonBit(winners,digit);
-        log(`most common bit\t digit=${digit}\t bit=${mostCommon}`);
+        //log(`most common bit\t digit=${digit}\t bit=${mostCommon}`);
         winners = selectWinners(winners,digit,mostCommon);
-        log(winners)
+        //log(winners)
         if(winners.length == 1){
             return winners[0];
         }
@@ -114,7 +114,7 @@ function calcOxygenRating(binary){
 
 function leastCommonBit(binary,digit){
     let epsilon = calcEpsilonRate(binary);
-    console.log(epsilon)
+    //console.log(epsilon)
     let bit = epsilon[digit]
     if (bit == "D") {
         return "0"
@@ -130,9 +130,9 @@ function calcCarbonRating(binary){
 
     for (let digit = 0; digit < digits; digit++) {
         let leastCommon = leastCommonBit(winners, digit);
-        log(`least common bit\t digit=${digit}\t bit=${leastCommon}`);
+        //log(`least common bit\t digit=${digit}\t bit=${leastCommon}`);
         winners = selectWinners(winners, digit, leastCommon);
-        log(winners)
+        //log(winners)
         if (winners.length == 1) {
             return winners[0];
         }
@@ -172,4 +172,4 @@ function main(first: boolean, second: boolean) {
     }
 }
 
-main(false, true);
+main(true, true);
