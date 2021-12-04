@@ -1,26 +1,37 @@
 /*Dependent Modules*/
 import { readInput, inputToArray, inputToNumberArray, inputToStringArray } from '../shared/common';
 const log = console.log;
+const rawInput = inputToStringArray('day5input.txt', '\n');
+//console.table(rawInput);
 
-//const rawInput = readInput('day3input.txt');
+function part1() {
 
+    let answer;
+    log(`${answer}`);
+}
 
-function firstChallenge() { }
-function secondChallenge() { }
+function part2() {
 
+    let answer;
+    log(`${answer}`);
+}
 
 // main method to run the program
 function main(first: boolean, second: boolean) {
     if (first) {
-        console.log('------  First Challenge Started ------');
-        firstChallenge();
-        console.log('------  Challend Completed -----------');
+        log('--------------------------------------');
+        log('----------  First Challenge ----------');
+        part1();
+        log('--------------------------------------');
+        log('\n\n');
     }
     if (second) {
-        console.log('------  Second Challenge Started -----');
-        secondChallenge();
-        console.log('------  Challend Completed -----------');
+        log('--------------------------------------');
+        log('----------  Second Challenge ---------');
+        part2();
+        log('--------------------------------------');
+        log('\n\n');
     }
 }
 
-main(true, false);
+main(true, true);
