@@ -203,8 +203,40 @@ function part1() {
 
 function part2() {
 
-    //answer
-    log();
+    log(numbersCalled);
+
+    let boards = listOfMatricies(bingoCards, 5);
+    log(`number of matrices = ${boards.length}`);
+    //log(numbersCalled);
+    //console.table(boards[0]);
+
+
+    let listOfBoardStates = [];
+    for (let b = 0; b < boards.length; b++) {
+        //console.table(boards[b]);
+        listOfBoardStates.push(testBoard(boards[b], numbersCalled))
+    }
+
+    //console.table(listOfBoardStates);
+
+    let maxBoard = listOfBoardStates[0];
+    for (let b = 1; b < boards.length; b++) {
+        if (listOfBoardStates[b].moves > 0 && listOfBoardStates[b].moves > maxBoard.moves) {
+            maxBoard = listOfBoardStates[b];
+        }
+    }
+
+    log("The Winning Baord");
+    log("-----------------")
+    console.table(maxBoard.board);
+    log("Moves: " + maxBoard.moves);
+    log("with indices...");
+    console.table(maxBoard.indices);
+    //log(typeof minBoard.indices);
+    //log(Array.isArray(minBoard.indices));
+
+    let score = calculateScore(maxBoard);
+    log(`SCORE = ${score}`);
 }
 
 // main method to run the program
@@ -225,4 +257,4 @@ function main(first: boolean, second: boolean) {
     }
 }
 
-main(true, true);
+main(false, true);

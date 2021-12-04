@@ -158,8 +158,33 @@ function part1() {
     log("SCORE = ".concat(score));
 }
 function part2() {
-    //answer
-    log();
+    log(numbersCalled);
+    var boards = listOfMatricies(bingoCards, 5);
+    log("number of matrices = ".concat(boards.length));
+    //log(numbersCalled);
+    //console.table(boards[0]);
+    var listOfBoardStates = [];
+    for (var b = 0; b < boards.length; b++) {
+        //console.table(boards[b]);
+        listOfBoardStates.push(testBoard(boards[b], numbersCalled));
+    }
+    //console.table(listOfBoardStates);
+    var maxBoard = listOfBoardStates[0];
+    for (var b = 1; b < boards.length; b++) {
+        if (listOfBoardStates[b].moves > 0 && listOfBoardStates[b].moves > maxBoard.moves) {
+            maxBoard = listOfBoardStates[b];
+        }
+    }
+    log("The Winning Baord");
+    log("-----------------");
+    console.table(maxBoard.board);
+    log("Moves: " + maxBoard.moves);
+    log("with indices...");
+    console.table(maxBoard.indices);
+    //log(typeof minBoard.indices);
+    //log(Array.isArray(minBoard.indices));
+    var score = calculateScore(maxBoard);
+    log("SCORE = ".concat(score));
 }
 // main method to run the program
 function main(first, second) {
@@ -178,4 +203,4 @@ function main(first, second) {
         log('\n\n');
     }
 }
-main(true, true);
+main(false, true);
