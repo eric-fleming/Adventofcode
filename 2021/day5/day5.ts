@@ -1,38 +1,38 @@
 /*Dependent Modules*/
 import { readInput, inputToArray, inputToNumberArray, inputToStringArray } from '../shared/common';
 const log = console.log;
-const rawInput = inputToStringArray('day5input.txt', '\n');
+const rawInput: string[] = inputToStringArray('day5input.txt', '\n');
 const SIZE = 1000;
-console.table(rawInput);
+//console.table(rawInput);
 
-
-function createEndPoint(pointString){
-    pointString = pointString.trim()
-    let vals = pointString.split(",")
-    vals[0] = parseInt(vals[0]);
-    vals[1] = parseInt(vals[1]);
+function createEndPoint(point:string):number[]{
+    point = point.trim()
+    let vals:number[] = point.split(",").map((val)=>parseInt(val));
     return vals;
 }
 
-function createEndPoints(list){
-    let pair = list.split(" -> ");
-    let A = pair[0];
-    A = createEndPoint(A);
-    //log(A);
-    let B = pair[1];
-    B = createEndPoint(B);
-    //log(B);
-    return [A,B];
+function createEndPointPair(inputLine:string){
+    let pair = inputLine.split(" -> ").map((point) => createEndPoint(point));
+    return pair;
 }
 
-function generateMatrix(rows,cols,value){
+function generateMatrix(rows:number,cols:number,value){
     let matrix = [];
     for(let r = 0; r<rows;r++){
-        let row = []
-        for(let c = 0; c<cols;c++){
-            row.push(value);
-        }
-        matrix.push(row);
+        let row = new Array(cols);
+        row.fill(value);
+        matrix[r]=row;
+    }
+    return matrix;
+}
+
+function createSquareMatrix(size: number,defaultVal){
+
+    let matrix = new Array(size);
+    for (let r = 0; r < size; r++){
+        let row = new Array(size);
+        row.fill(defaultVal);
+        matrix[r]=row;
     }
     return matrix;
 }
@@ -59,7 +59,7 @@ function AddPointsToMatrix(matrix,line){
         }
         return matrix;
     }
-    if(vertical){
+    else if(vertical){
         let y = line[0][1];
         for (let c = Xmin; c <= Xmax; c++) {
             matrix[c][y] += 1;
@@ -69,7 +69,7 @@ function AddPointsToMatrix(matrix,line){
     // part 2
     let slope = ((y2 - y1) / (x2 - x1));
     let steps = Xmax-Xmin;
-    //console.log('slope = '+slope)
+
     if (slope == 1) {
         for (let p = 0; p<=steps; p++) {
             matrix[Xmin+p][Ymin+p] += 1
@@ -77,20 +77,21 @@ function AddPointsToMatrix(matrix,line){
         return matrix;
     }
 
-    if (slope == -1) {
+    else if (slope == -1) {
         for (let p = 0; p<=steps; p++) {
             matrix[Xmin + p][Ymax - p] += 1
         }
         return matrix;
     }
-    //return matrix;
+    log('Line did not conform to any plan');
+    return matrix;
 }
 
 function countOverlappingLines(matrix){
     let count = 0;
-    let m_size = matrix.length;
-    for (let x = 0; x < m_size; x++) {
-        for (let y = 0; y < m_size; y++) {
+    let size = matrix.length;
+    for (let x = 0; x < size; x++) {
+        for (let y = 0; y < size; y++) {
             if (matrix[x][y] > 1) {
                 count++;
             }
@@ -103,19 +104,14 @@ function part1() {
 
     let endPointList = [];
     for(let p=0; p < rawInput.length; p++){
-        let line = createEndPoints(rawInput[p]);
+        let line = createEndPointPair(rawInput[p]);
         endPointList.push(line);
     }
 
-
     let filteredEndPointList = endPointList.filter(pair => pair[0][0] == pair[1][0] || pair[0][1] == pair[1][1]);
-    log(`endpoint list length: ${endPointList.length}`);
-    log(`filtered length: ${filteredEndPointList.length}`);
-    console.table(filteredEndPointList)
-
 
     let matrix = generateMatrix(SIZE,SIZE,0);
-    //console.table(matrix);
+
     for (let k = 0; k < filteredEndPointList.length; k++) {
         let line = filteredEndPointList[k];
         matrix = AddPointsToMatrix(matrix,line);
@@ -123,19 +119,18 @@ function part1() {
 
     log(`------ THE COUNT ------`)
     log(`${countOverlappingLines(matrix)}`);
-    //console.table(matrix);
 }
 
 function part2() {
     
     let endPointList = [];
     for (let p = 0; p < rawInput.length; p++) {
-        let line = createEndPoints(rawInput[p]);
+        let line = createEndPointPair(rawInput[p]);
         endPointList.push(line);
     }
 
-    let matrix = generateMatrix(SIZE, SIZE, 0);
-    //console.table(matrix);
+    let matrix = createSquareMatrix(SIZE, 0);
+
     for (let k = 0; k < endPointList.length; k++) {
         let line = endPointList[k];
         matrix = AddPointsToMatrix(matrix, line);
@@ -143,7 +138,6 @@ function part2() {
 
     log(`------ THE COUNT ------`)
     log(`${countOverlappingLines(matrix)}`);
-    //console.table(matrix);
 }
 
 // main method to run the program
