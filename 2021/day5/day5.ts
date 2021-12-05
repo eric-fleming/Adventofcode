@@ -1,7 +1,7 @@
 /*Dependent Modules*/
 import { readInput, inputToArray, inputToNumberArray, inputToStringArray } from '../shared/common';
 const log = console.log;
-const rawInput = inputToStringArray('day5input.txt', '\r\n');
+const rawInput = inputToStringArray('day5input.txt', '\n');
 console.table(rawInput);
 
 
@@ -43,16 +43,37 @@ function AddPointsToMatrix(matrix,line){
         let x = line[0][0];
         let y1 = line[0][1];
         let y2 = line[1][1];
-        let dir = y2-y1;
-        for(let c=y1; c<=y2; c++){
+        let min = Math.min(y1,y2);
+        let max = Math.max(y1,y2);
+        for(let c=min; c<=max; c++){
             matrix[x][c] += 1;
         }
     }
     if(vertical){
-
+        let y = line[0][1];
+        let x1 = line[0][0];
+        let x2 = line[1][0];
+        let min = Math.min(x1,x2);
+        let max = Math.max(x1,x2);
+        for (let c = min; c <= max; c++) {
+            matrix[c][y] += 1;
+        }
     }
 
     return matrix;
+}
+
+function countOverlappingLines(matrix){
+    let count = 0;
+    let m_size = matrix.length;
+    for (let x = 0; x < m_size; x++) {
+        for (let y = 0; y < m_size; y++) {
+            if (matrix[x][y] > 1) {
+                count++;
+            }
+        }
+    }
+    return count;
 }
 
 function part1() {
@@ -62,23 +83,22 @@ function part1() {
         let line = createEndPoints(rawInput[p]);
         endPointList.push(line);
     }
-    log(endPointList[0]);
+
 
     let filteredEndPointList = endPointList.filter(pair => pair[0][0] == pair[1][0] || pair[0][1] == pair[1][1]);
     log(`endpoint list length: ${endPointList.length}`);
     log(`filtered length: ${filteredEndPointList.length}`);
 
-    let matrix = generateMatrix(999,999,0);
+    let m_size = 1000;
+    let matrix = generateMatrix(m_size,m_size,0);
     //console.table(matrix);
     for (let k = 0; k < endPointList.length; k++) {
         let line = endPointList[k];
         matrix = AddPointsToMatrix(matrix,line);
     }
 
-
-
-    let answer;
-    log(`${answer}`);
+    log(`------ THE COUNT ------`)
+    log(`${countOverlappingLines(matrix)}`);
 }
 
 function part2() {
