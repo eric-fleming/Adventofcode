@@ -13,12 +13,9 @@ function part1() {
     const freshInput:string[] = [...rawInput];
 
     let inputPairs:string[][] = [];
-    let inputs:string[] = []
     let outputs: string[] = [];
     for(let k=0; k<freshInput.length;k++){
         let pair = freshInput[k].split(" | ");
-        inputPairs[k] = pair;
-        inputs[k] = pair[0].trim();
         outputs[k] = pair[1].trim();
     }
 
@@ -140,8 +137,6 @@ function generatefrequencyMapByCount(sentence: string) {
         }
 
     });
-
-    
     return freqMapByCount;
 }
 
@@ -198,15 +193,12 @@ function part2() {
         // create maps
         let letterMap = generatefrequencyMap(inputs[k]);
         let countMap = generatefrequencyMapByCount(inputs[k]);
-        let digitDecoder = new Map();
-        digitDecoder = decodeInput(inputs[k], digitDecoder, letterMap, countMap);
+        let digitDecoder = decodeInput(inputs[k], new Map(), letterMap, countMap);
 
         // process output
-        let out = outputs[k].split(" ")
-        out = out.map(digit => orderSegments(digit));
-        out = out.map(digit => digitDecoder.get(digit));
+        let out = outputs[k].split(" ");
+        out = out.map(digit => orderSegments(digit)).map(digit => digitDecoder.get(digit));
         let val = Number(out.join(''));
-        log(val)
         total += val
 
     }
@@ -232,4 +224,4 @@ function main(first: boolean, second: boolean) {
     }
 }
 
-main(false, true);
+main(true, true);
