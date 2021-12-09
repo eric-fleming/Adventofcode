@@ -1,8 +1,8 @@
 /*Dependent Modules*/
-import { readInput, inputToArray, inputToNumberArray, inputToStringArray } from '../shared/common';
+import { inputToStringArray } from '../shared/common';
 const log = console.log;
-const rawInput = inputToStringArray('day9.input.txt', '\n');
-console.table(rawInput);
+const rawInput = inputToStringArray('ex9.txt', '\n');
+//console.table(rawInput);
 
 function padInput(list:string[],padChar){
     let paddedList = [];
@@ -76,7 +76,55 @@ function part1() {
     log(`total score: ${total}`);
 }
 
+function lowPointCoordinates(){
+    let paddedList = padInput([...rawInput], 'A');
+    let matrix = convertToMatrix(paddedList);
+    let rows = matrix.length;
+    let cols = matrix[0].length;
+
+    let lowPointCoordinates = []
+
+    for (let r = 1; r < rows - 1; r++) {
+        for (let c = 1; c < cols - 1; c++) {
+            if (isLowestPoint(matrix, c, r)) {
+                lowPointCoordinates.push({y:r,x:c});
+            }
+        }
+    }
+
+    console.table(lowPointCoordinates);
+}
+
+lowPointCoordinates();
+
+
+function createVisitedMatrix(list: string[]) {
+    let visited = [];
+    let cols = list[0].length;
+    visited.push(new Array(cols + 2).fill(1));
+    list.forEach(line => {
+        let row = new Array(cols + 2).fill(0);
+        row[0] = 1;
+        row[cols+1] = 1;
+        visited.push(row);
+    })
+    visited.push(new Array(cols + 2).fill(1));
+
+    return visited;
+}
+console.table(createVisitedMatrix(rawInput));
+
 function part2() {
+
+    //get the coordinates of basins
+
+    // loop through starting points
+    // tranverse in 4 directions
+    // append to results array
+
+
+    // sort
+    // multiply the top 3
 
     let answer;
     log(`${answer}`);
@@ -100,4 +148,4 @@ function main(first: boolean, second: boolean) {
     }
 }
 
-main(true, true);
+main(false, true);

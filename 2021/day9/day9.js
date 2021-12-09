@@ -12,8 +12,8 @@ exports.__esModule = true;
 /*Dependent Modules*/
 var common_1 = require("../shared/common");
 var log = console.log;
-var rawInput = (0, common_1.inputToStringArray)('day9.input.txt', '\n');
-console.table(rawInput);
+var rawInput = (0, common_1.inputToStringArray)('ex9.txt', '\n');
+//console.table(rawInput);
 function padInput(list, padChar) {
     var paddedList = [];
     var cols = list[0].length;
@@ -73,6 +73,36 @@ function part1() {
     var total = lowPointScores.reduce(function (a, b) { return a + b; });
     log("total score: ".concat(total));
 }
+function lowPointCoordinates() {
+    var paddedList = padInput(__spreadArray([], rawInput, true), 'A');
+    var matrix = convertToMatrix(paddedList);
+    var rows = matrix.length;
+    var cols = matrix[0].length;
+    var lowPointCoordinates = [];
+    for (var r = 1; r < rows - 1; r++) {
+        for (var c = 1; c < cols - 1; c++) {
+            if (isLowestPoint(matrix, c, r)) {
+                lowPointCoordinates.push({ y: r, x: c });
+            }
+        }
+    }
+    console.table(lowPointCoordinates);
+}
+lowPointCoordinates();
+function createVisitedMatrix(list) {
+    var visited = [];
+    var cols = list[0].length;
+    visited.push(new Array(cols + 2).fill(1));
+    list.forEach(function (line) {
+        var row = new Array(cols + 2).fill(0);
+        row[0] = 1;
+        row[cols + 1] = 1;
+        visited.push(row);
+    });
+    visited.push(new Array(cols + 2).fill(1));
+    return visited;
+}
+console.table(createVisitedMatrix(rawInput));
 function part2() {
     var answer;
     log("".concat(answer));
@@ -94,4 +124,4 @@ function main(first, second) {
         log('\n\n');
     }
 }
-main(true, true);
+main(false, true);
