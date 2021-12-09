@@ -1,0 +1,36 @@
+# Day 8
+
+So in addition to the length of each string being an invariant, since each digit is only respresented once in an input string, the number of times a character appears is also fixed.  Using my eyes and double checked computationally there are 3 letters which have a unique number of appearances.  These letters b,e,f I denote as the primes.  To make sure the tests remain independent you may also need to validate which primes it does not have.
+
+Prime decomposition
+
+// 0 : bef (len == 6)
+// 1 : len == 2
+// 2 : e (len == 5)
+// 3 : f (5)
+// 4 : len == 4
+// 5 : bf (len == 5)
+// 6 : bef (len == 6)
+// 7 : len == 3
+// 8 : len == 7
+// 9 : bf (len == 6)
+
+From the table above you can see that there still isn't sufficient information to distinguish 0 and 6.  For that I was able to target which had a double count to differentiate them.
+
+
+const segmentAppearance = new Map();
+segmentAppearance.set('a',8)
+segmentAppearance.set('b',6)// p1
+segmentAppearance.set('c',8)
+segmentAppearance.set('d',7)
+segmentAppearance.set('e',4)// p2
+segmentAppearance.set('f',9)// p3
+segmentAppearance.set('g',7)
+
+
+const segmentFrequencyIdOriginal = new Map();
+segmentFrequencyIdOriginal.set(8,['a','c']);
+segmentFrequencyIdOriginal.set(6,['b']); //p1
+segmentFrequencyIdOriginal.set(7,['d','g']);
+segmentFrequencyIdOriginal.set(4,['e']); //p2
+segmentFrequencyIdOriginal.set(9,['f']); //p3

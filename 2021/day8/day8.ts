@@ -1,5 +1,5 @@
 /*Dependent Modules*/
-import { readInput, inputToArray, inputToNumberArray, inputToStringArray } from '../shared/common';
+import { inputToStringArray } from '../shared/common';
 const log = console.log;
 const rawInput = inputToStringArray('day8.input.txt', '\n');
 //console.table(rawInput);
@@ -7,8 +7,6 @@ const rawInput = inputToStringArray('day8.input.txt', '\n');
 function isUniqueLength(size){
     return size == 2 || size == 3 || size == 4 || size == 7;
 }
-
-
 
 function part1() {
 
@@ -24,9 +22,6 @@ function part1() {
         outputs[k] = pair[1].trim();
     }
 
-
-    console.table(outputs);
-
     let count = 0;
     for (let k = 0; k < outputs.length; k++){
         let list = outputs[k].split(" ");
@@ -40,95 +35,183 @@ function part1() {
     log(`${count}`);
 }
 
-// 1,4,7,8
-// 3
-// 0, 9
-// 6
-// 2, 5
-
-function isZeroDigit(word){
-    // 3 and 4 have middle in common
-    // has length 6 (1st one)
-    // does not have common
+function orderSegments(segments) {
+    let list: string[] = segments.split('');
+    list.sort();
+    return list.join('');
 }
 
-function isOneDigit(word){
+function isZero(word,letterMap,countMap){
+    let len = word.length == 6
+    let primes = word.includes(countMap.get(4)) && word.includes(countMap.get(6)) && word.includes(countMap.get(9));
+    let count = 0;
+    for (let k = 0; k < word.length; k++) {
+        let target = letterMap.get(word[k])
+        if (target == 8) {
+            count++
+        }
+    }
+    return len && primes && count == 2;
+}
+
+function isOne(word){
     return word.length == 2;
 }
 
-function isTwoDigit(word){
-    // missing 2 segments from 6 digit
+function isTwo(word:string,countMap){
+    // has length 5 ; unique segment appears 4 times
+    return word.length == 5 && word.includes(countMap.get(4));
 }
 
-function isThreeDigit(word){
-    // is length 5 and contains chars from 1-digit
+function isThree(word,countMap){
+    // has length 5 ; unique segment appears 9 times
+    return word.length == 5 && word.includes(countMap.get(9)) && !word.includes(countMap.get(6));
 }
 
-
-
-function isFourDigit(word) {
+function isFour(word) {
     return word.length == 4;
 }
 
-function isFiveDigit(word){
-    // missing 1 segment from 6 digit
+function isFive(word,countMap){
+    // has length 5 ; unique segments that appear 6 and 9 times
+    return word.length == 5 && word.includes(countMap.get(6)) && word.includes(countMap.get(9));
 }
 
-function isSixDigit(word){
-    //last one with length 6
+function isSix(word,letterMap,countMap){
+    
+    let len = word.length == 6
+    let primes = word.includes(countMap.get(4)) && word.includes(countMap.get(6)) && word.includes(countMap.get(9));
+    let count = 0;
+    for(let k=0; k<word.length;k++){
+        let target = letterMap.get(word[k])
+        if(target == 7){
+            count++
+        }
+    }
+    return len && primes && count == 2;
 }
 
-function isSevenDigit(word) {
+function isSeven(word) {
     return word.length == 3;
 }
 
-function isEigthDigit(word) {
+function isEigth(word) {
     return word.length == 7;
 }
 
-function isNineDigit(word){
-    // with length 6 (2nd one)
-    //has all the letters of 3 and 4 digit
+function isNine(word,countMap){
+    // has length 6 ; unique segments that appear 6 and 9 times
+    return word.length == 6 && word.includes(countMap.get(6)) && word.includes(countMap.get(9));
 }
 
-//primes
-// 0 : bef (6)
-// 1 : len
-// 2 : e (5)
-// 3 : f (5)
-// 4 : len
-// 5 : bf (5)
-// 6 : bef (6)
-// 7 : len
-// 8 : len
-// 9 : bf (6)
+function generatefrequencyMap(sentence:string){
+    let freqMapByLetter = new Map();
+    sentence = sentence.replace(/\s/g,'');
+
+    for(let c=0;c<sentence.length;c++){
+        let char = sentence[c]
+        if (freqMapByLetter.has(char)){
+            freqMapByLetter.set(char, freqMapByLetter.get(char)+1);
+        } else {
+            freqMapByLetter.set(char,1);
+        }
+    }
+    return freqMapByLetter;
+}
+
+function generatefrequencyMapByCount(sentence: string) {
+    let freqMapByCount = new Map();
+    sentence = sentence.replace(/\s/g, '');
+    let letters:string[] = ['a','b','c','d','e','f','g'];
+
+    letters.forEach(letter =>{
+        let count=0;
+        for (let c = 0; c < sentence.length; c++) {
+            if (sentence[c] == letter) {
+                count++
+            } 
+        }
+
+        if(freqMapByCount.has(count)){
+            let entry = freqMapByCount.get(count);
+            entry.push(letter);
+        } else{
+            freqMapByCount.set(count,[letter]);
+        }
+
+    });
+
+    
+    return freqMapByCount;
+}
 
 
-const segmentAppearance = new Map();
-segmentAppearance.set('a',8)
-segmentAppearance.set('b',6)// p1
-segmentAppearance.set('c',8)
-segmentAppearance.set('d',7)
-segmentAppearance.set('e',4)// p2
-segmentAppearance.set('f',9)// p3
-segmentAppearance.set('g',7)
 
-const originalDigitMap:Map<string,string> = new Map();
-originalDigitMap.set('abcefg','0');
-originalDigitMap.set('cf', '1');
-originalDigitMap.set('acdeg', '2');
-originalDigitMap.set('acdfg', '3');
-originalDigitMap.set('bcdf', '4');
-originalDigitMap.set('abdfg', '5');
-originalDigitMap.set('abdefg', '6');
-originalDigitMap.set('acf', '7');
-originalDigitMap.set('abcdefg', '8');
-originalDigitMap.set('abcdfg', '9');
+function decodeInput(sentence:string, digitMap,letterMap,countMap){
+    let digits = (sentence.trim()).split(" ");
+
+    for (let k = 0; k < digits.length; k++) {
+        let digit = orderSegments(digits[k]);
+        //order matters here
+        if (isOne(digit)) {
+            digitMap.set(digit, '1')
+        } else if (isSeven(digit)) {
+            digitMap.set(digit, '7')
+        } else if (isFour(digit)) {
+            digitMap.set(digit, '4')
+        } else if (isEigth(digit)) {
+            digitMap.set(digit, '8')
+        } else if(isTwo(digit,countMap)){
+            digitMap.set(digit,'2')
+        } else if(isThree(digit,countMap)){
+            digitMap.set(digit, '3')
+        } else if(isFive(digit,countMap)){
+            digitMap.set(digit, '5')
+        } else if (isSix(digit,letterMap, countMap)) {
+            digitMap.set(digit, '6')
+        } else if (isZero(digit, letterMap, countMap)) {
+            digitMap.set(digit, '0')
+        } else if (isNine(digit, countMap)) {
+            digitMap.set(digit, '9')
+        }
+    }
+    //console.table(digitMap);
+    return digitMap;
+}
 
 function part2() {
 
-    let answer;
-    log(`${answer}`);
+    const freshInput: string[] = [...rawInput];
+
+    let inputPairs: string[][] = [];
+    let inputs: string[] = []
+    let outputs: string[] = [];
+    for (let k = 0; k < freshInput.length; k++) {
+        let pair = freshInput[k].split(" | ");
+        inputPairs[k] = pair;
+        inputs[k] = pair[0].trim();
+        outputs[k] = pair[1].trim();
+    }
+    
+    let total = 0;
+    for (let k = 0; k < inputPairs.length;k++){
+        // create maps
+        let letterMap = generatefrequencyMap(inputs[k]);
+        let countMap = generatefrequencyMapByCount(inputs[k]);
+        let digitDecoder = new Map();
+        digitDecoder = decodeInput(inputs[k], digitDecoder, letterMap, countMap);
+
+        // process output
+        let out = outputs[k].split(" ")
+        out = out.map(digit => orderSegments(digit));
+        out = out.map(digit => digitDecoder.get(digit));
+        let val = Number(out.join(''));
+        log(val)
+        total += val
+
+    }
+
+    log(`total = ${total}`);
 }
 
 // main method to run the program
@@ -149,4 +232,4 @@ function main(first: boolean, second: boolean) {
     }
 }
 
-main(true, true);
+main(false, true);
