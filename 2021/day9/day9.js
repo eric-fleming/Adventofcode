@@ -32,18 +32,11 @@ function convertToMatrix(list) {
 }
 function isLowestPoint(matrix, x, y) {
     var point = matrix[y][x];
-    var topleft = matrix[y - 1][x - 1];
-    var topmiddle = matrix[y - 1][x];
-    var topright = matrix[y - 1][x + 1];
-    var top = point < topleft && point < topmiddle && point < topright;
-    var left = matrix[y][x - 1];
-    var right = matrix[y][x + 1];
-    var sides = point < left && point < right;
-    var bottomleft = matrix[y + 1][x - 1];
-    var bottommiddle = matrix[y + 1][x];
-    var bottomright = matrix[y + 1][x + 1];
-    var bottom = point < bottomleft && point < bottommiddle && point < bottomright;
-    return top && sides && bottom;
+    var top = matrix[y - 1][x] > point;
+    var left = matrix[y][x - 1] > point;
+    var right = matrix[y][x + 1] > point;
+    var bottom = matrix[y + 1][x] > point;
+    return top && left && right && bottom;
 }
 function part1() {
     var paddedList = padInput(__spreadArray([], rawInput, true), 'A');

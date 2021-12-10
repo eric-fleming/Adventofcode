@@ -27,21 +27,12 @@ function convertToMatrix(list:string[]){
  function isLowestPoint(matrix,x,y){
      let point = matrix[y][x]
 
-     let topleft = matrix[y - 1][x - 1];
-     let topmiddle = matrix[y - 1][x];
-     let topright = matrix[y - 1][x + 1];
-     let top = point < topleft && point < topmiddle && point < topright;
+     let top = matrix[y - 1][x] > point;
+     let left = matrix[y][x - 1] > point;
+     let right = matrix[y][x + 1] > point;
+     let bottom = matrix[y + 1][x] > point;
 
-     let left = matrix[y][x - 1];
-     let right = matrix[y][x + 1];
-     let sides = point < left && point < right;
-
-     let bottomleft = matrix[y + 1][x - 1]
-     let bottommiddle = matrix[y + 1][x]
-     let bottomright = matrix[y + 1][x + 1]
-     let bottom = point < bottomleft && point < bottommiddle && point < bottomright;
-
-     return top && sides && bottom;
+     return top && left && right && bottom;
 
  }
 
