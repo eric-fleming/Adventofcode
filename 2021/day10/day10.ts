@@ -5,7 +5,7 @@ const table = console.table;
 const info = console.info; //(stuff)=>{}
 // day10.input.txt
 // ex.10.txt
-const rawInput = inputToStringArray('day10.input.txt', '\n');
+const rawInput = inputToStringArray('ex.10.txt', '\n');
 //console.table(rawInput);
 
 const illegalPointsMap :Map<string, number> = new Map();
@@ -60,28 +60,86 @@ function part1() {
                 }
             }
         }
-        
-
-        
+  
     }
-    console.table(errors);
+    //console.table(errors);
     let total = 0;
     errors.forEach( err => {total += illegalPointsMap.get(err)});
     //console.table(errors);
     log(`${total}`);
 }
 
+const autoCompletePointsMap = new Map();
+autoCompletePointsMap.set(')', 1);
+autoCompletePointsMap.set(']', 2);
+autoCompletePointsMap.set('}', 3);
+autoCompletePointsMap.set('>', 4);
 
+function autoPointTotal(remaining:string[]):number{
+    let total = 0;
+    for (let k =0; k<remaining.length;k++){
+        let subtotal = (total * 5 + autoCompletePointsMap.get(remaining[k]));
+        total = subtotal;
+    }
+    return total;
+}
 
-//     > {[]{[(<()>
-
-//open : {([(<[}
-//close:
 
 function part2() {
 
-    let answer;
-    log(`${answer}`);
+    let lines = [...rawInput];
+
+    let incompletes = [];
+
+    for (let k = 0; k < lines.length; k++) {
+        let line = lines[k];
+        let opens = [];
+        let incomplete = true;
+        inner:
+        for (let c = 0; c < line.length; c++) {
+            let char = line[c];
+
+            if (openTally(char)) {
+                opens.push(char)
+                continue;
+            }
+            if (closeTally(char)) {
+                if (!validPair(opens[opens.length - 1], char)) {
+                    incomplete = false;
+                    break inner;
+                } else {
+                    opens.pop();
+                }
+            }
+        }
+
+        if(incomplete){
+            incompletes.push({
+                line:lines[k],
+                remaining: opens
+            });
+        }
+
+    }
+
+    table(incompletes);
+
+    const beginnings = incompletes.map(item => item.remaining);
+    //table(beginnings);
+    const endings = beginnings.map(list => {
+        let flipped = list.map(item => CLOSECHARS[OPENCHARS.indexOf(item)]);
+        flipped.reverse();
+        return flipped;
+    });
+    table(endings);
+
+    const scores = endings.map(list => autoPointTotal(list));
+    scores.sort((a,b)=>a-b);
+
+    log('scores');
+    table(scores);
+    log(scores[Math.floor(scores.length/2)]);
+
 }
 
 // main method to run the program
@@ -102,4 +160,4 @@ function main(first: boolean, second: boolean) {
     }
 }
 
-main(true, false);
+main(false, true);
