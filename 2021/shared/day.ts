@@ -1,7 +1,10 @@
 /*Dependent Modules*/
 import { readInput, inputToArray, inputToNumberArray, inputToStringArray } from '../shared/common';
 const log = console.log;
-const rawInput = inputToStringArray('day5input.txt', '\n');
+const info = console.info; //(stuff)=>{}
+// day10.input.txt
+// ex.10.txt
+const rawInput = inputToStringArray('day10.input.txt', '\n');
 //console.table(rawInput);
 
 function part1() {
@@ -21,17 +24,17 @@ function main(first: boolean, second: boolean) {
     if (first) {
         log('--------------------------------------');
         log('----------  First Challenge ----------');
-        part1();
         log('--------------------------------------');
+        part1();
         log('\n\n');
     }
     if (second) {
         log('--------------------------------------');
         log('----------  Second Challenge ---------');
-        part2();
         log('--------------------------------------');
+        part2();
         log('\n\n');
     }
 }
 
-main(true, true);
+main(true, false);
