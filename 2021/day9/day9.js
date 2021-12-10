@@ -12,7 +12,7 @@ exports.__esModule = true;
 /*Dependent Modules*/
 var common_1 = require("../shared/common");
 var log = console.log;
-var rawInput = (0, common_1.inputToStringArray)('ex9.txt', '\n');
+var rawInput = (0, common_1.inputToStringArray)('day9.input.txt', '\n');
 //console.table(rawInput);
 function padInput(list, padChar) {
     var paddedList = [];
@@ -24,71 +24,54 @@ function padInput(list, padChar) {
 }
 function convertToMatrix(list) {
     var rows = list.length;
-    //let cols = list[0].length;
     var matrix = new Array(rows);
     for (var k = 0; k < rows; k++) {
         matrix[k] = list[k].split('');
     }
     return matrix;
 }
-function isLowerThanAbove(matrix, x, y) {
+function isLowestPoint(matrix, x, y) {
     var point = matrix[y][x];
     var topleft = matrix[y - 1][x - 1];
     var topmiddle = matrix[y - 1][x];
     var topright = matrix[y - 1][x + 1];
-    return point < topleft && point < topmiddle && point < topright;
-}
-function isLowerThanSides(matrix, x, y) {
-    var point = matrix[y][x];
+    var top = point < topleft && point < topmiddle && point < topright;
     var left = matrix[y][x - 1];
     var right = matrix[y][x + 1];
-    return point < left && point < right;
-}
-function isLowerThanBelow(matrix, x, y) {
-    var point = matrix[y][x];
+    var sides = point < left && point < right;
     var bottomleft = matrix[y + 1][x - 1];
     var bottommiddle = matrix[y + 1][x];
     var bottomright = matrix[y + 1][x + 1];
-    return point < bottomleft && point < bottommiddle && point < bottomright;
-}
-function isLowestPoint(matrix, x, y) {
-    return isLowerThanAbove(matrix, x, y) && isLowerThanSides(matrix, x, y) && isLowerThanBelow(matrix, x, y);
+    var bottom = point < bottomleft && point < bottommiddle && point < bottomright;
+    return top && sides && bottom;
 }
 function part1() {
     var paddedList = padInput(__spreadArray([], rawInput, true), 'A');
-    //console.table(paddedList);
     var matrix = convertToMatrix(paddedList);
-    //console.table(matrix);
-    var rows = matrix.length;
-    var cols = matrix[0].length;
     var lowPointScores = [];
-    for (var r = 1; r < rows - 1; r++) {
-        for (var c = 1; c < cols - 1; c++) {
+    for (var r = 1; r < matrix.length - 1; r++) {
+        for (var c = 1; c < matrix[0].length - 1; c++) {
             if (isLowestPoint(matrix, c, r)) {
                 lowPointScores.push(Number(matrix[r][c]) + 1);
             }
         }
     }
-    log(lowPointScores);
     var total = lowPointScores.reduce(function (a, b) { return a + b; });
     log("total score: ".concat(total));
 }
 function lowPointCoordinates() {
     var paddedList = padInput(__spreadArray([], rawInput, true), 'A');
     var matrix = convertToMatrix(paddedList);
-    var rows = matrix.length;
-    var cols = matrix[0].length;
     var lowPointCoordinates = [];
-    for (var r = 1; r < rows - 1; r++) {
-        for (var c = 1; c < cols - 1; c++) {
+    for (var r = 1; r < matrix.length - 1; r++) {
+        for (var c = 1; c < matrix[0].length - 1; c++) {
             if (isLowestPoint(matrix, c, r)) {
-                lowPointCoordinates.push({ y: r, x: c });
+                lowPointCoordinates.push({ x: c, y: r });
             }
         }
     }
-    console.table(lowPointCoordinates);
+    return lowPointCoordinates;
 }
-lowPointCoordinates();
 function createVisitedMatrix(list) {
     var visited = [];
     var cols = list[0].length;
@@ -102,26 +85,77 @@ function createVisitedMatrix(list) {
     visited.push(new Array(cols + 2).fill(1));
     return visited;
 }
-console.table(createVisitedMatrix(rawInput));
+function edgeOfBasin(value) {
+    return value == '9' || value == 'A';
+}
+function traverse(x, y, matrix, visited) {
+    if (visited[y][x] == 1) {
+        return 0;
+    }
+    if (x == 0 || y == 0 || (y == matrix.length - 1) || (x == matrix[0].length - 1)) {
+        return 0;
+    }
+    if (edgeOfBasin(matrix[y][x])) {
+        return 0;
+    }
+    visited[y][x] = 1;
+    var sum = 1;
+    if (visited[y][x - 1] == 0) {
+        sum += traverse(x - 1, y, matrix, visited);
+    }
+    if (visited[y][x + 1] == 0) {
+        sum += traverse(x + 1, y, matrix, visited);
+    }
+    if (visited[y - 1][x] == 0) {
+        sum += traverse(x, y - 1, matrix, visited);
+    }
+    if (visited[y + 1][x] == 0) {
+        sum += traverse(x, y + 1, matrix, visited);
+    }
+    return sum;
+}
 function part2() {
-    var answer;
-    log("".concat(answer));
+    var paddedList = padInput(__spreadArray([], rawInput, true), 'A');
+    var matrix = convertToMatrix(paddedList);
+    var visited = createVisitedMatrix(__spreadArray([], rawInput, true));
+    //get the coordinates of basins
+    var startingCoordinates = lowPointCoordinates();
+    var basinSizes = [];
+    // loop through starting points
+    // tranverse in 4 directions
+    // append to results array
+    startingCoordinates.forEach(function (point) {
+        var size = traverse(point.x, point.y, matrix, visited);
+        basinSizes.push(size);
+    });
+    // sort
+    // multiply the top 3
+    basinSizes.sort(function (a, b) { return a - b; });
+    var len = basinSizes.length;
+    var product;
+    if (len >= 3) {
+        product = basinSizes[len - 1] * basinSizes[len - 2] * basinSizes[len - 3];
+    }
+    else {
+        product = null;
+    }
+    log("product = ".concat(product));
 }
 // main method to run the program
 function main(first, second) {
     if (first) {
         log('--------------------------------------');
         log('----------  First Challenge ----------');
-        part1();
         log('--------------------------------------');
+        part1();
         log('\n\n');
     }
     if (second) {
         log('--------------------------------------');
         log('----------  Second Challenge ---------');
-        part2();
         log('--------------------------------------');
+        part2();
         log('\n\n');
     }
 }
-main(false, true);
+main(true, true);
