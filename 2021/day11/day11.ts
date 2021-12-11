@@ -2,9 +2,9 @@
 import { readInput, inputToArray, inputToNumberArray, inputToStringArray } from '../shared/common';
 const log = console.log;
 const info = console.info; //(stuff)=>{}
-// day10.input.txt
-// ex.10.txt
-const rawInput = inputToStringArray('day10.input.txt', '\n');
+// day11input.txt
+// ex11.txt
+const rawInput = inputToStringArray('ex11.txt', '\n');
 //console.table(rawInput);
 
 function part1() {
