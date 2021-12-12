@@ -1,6 +1,10 @@
 # exclude JS dependcies
 node_modules
 
+# exclucude compiled js
+2021/day*/*.js
+2021/shared/*.js
+
 # GO Exclusions
 # executables
 *.exe
