@@ -56,7 +56,9 @@ function resetFlashed(paddedMatrix: number[][]) {
 }
 
 function compute(part, steps, source) {
-    const rawInput = inputToStringArray(source, '\r\n');
+    // mac {slash}{n}
+    // win {slash}{r}{slash}{n}
+    const rawInput = inputToStringArray(source, '\n');
     let cavern = [...rawInput];
     let cavernMatrix: number[][] = padNumberMatrix(convertToNumberMatrix(cavern), -Infinity);
 
@@ -121,9 +123,9 @@ function main(first: boolean, second: boolean) {
         log('--------------------------------------');
         log('----------  First Challenge ----------');
         log('--------------------------------------');
-        //compute(1,2,'tiny.txt');
-        //compute(1,10, 'ex11.txt');
-        //compute(1,100, 'ex11.txt');
+        compute(1,2,'tiny.txt');
+        compute(1,10, 'ex11.txt');
+        compute(1,100, 'ex11.txt');
         compute(1, 100, 'day11input.txt');
         log('\n\n');
     }
