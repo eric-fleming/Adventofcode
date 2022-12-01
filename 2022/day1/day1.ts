@@ -3,19 +3,46 @@ import { readInput, inputToArray, inputToNumberArray, inputToStringArray } from 
 const log = console.log;
 const table = console.table;
 
-const rawInput = inputToStringArray('input-day01.txt', '\n');
+const rawInput = inputToNumberArray('input-day1.txt', '\n');
 //console.table(rawInput);
 
-function part1() {
+function part1():number[] {
+
+    let elfTotalCals: number[] = [];
+    let subtotal: number = 0;
+    for(let k=0; k<rawInput.length;k++){
+        if(rawInput[k] == 0){
+            elfTotalCals.push(subtotal);
+            subtotal = 0;
+            continue;
+        } else{
+            subtotal += rawInput[k];
+        }
+    }
 
     let answer;
-    log(`${answer}`);
+    table(`${Math.max(...elfTotalCals)}`);
+    return elfTotalCals;
 }
 
 function part2() {
 
+    let elfTotalCals: number[] = [];
+    let subtotal: number = 0;
+    for (let k = 0; k < rawInput.length; k++) {
+        if (rawInput[k] == 0) {
+            elfTotalCals.push(subtotal);
+            subtotal = 0;
+            continue;
+        } else {
+            subtotal += rawInput[k];
+        }
+    }
+
+    elfTotalCals = elfTotalCals.sort((a,b) => b-a);
+
     let answer;
-    log(`${answer}`);
+    log(`${elfTotalCals[0]+elfTotalCals[1]+elfTotalCals[2]}`);
 }
 
 // main method to run the program
@@ -36,4 +63,4 @@ function main(first: boolean, second: boolean) {
     }
 }
 
-main(true, false);
+main(false, true);
