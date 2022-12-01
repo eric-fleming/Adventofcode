@@ -1,25 +1,21 @@
+"use strict";
+exports.__esModule = true;
 /*Dependent Modules*/
-import { readInput, inputToArray, inputToNumberArray, inputToStringArray } from '../shared/common';
-const log = console.log;
-const table = console.table;
-
-const rawInput = inputToStringArray('input-day01.txt', '\n');
+var common_1 = require("../shared/common");
+var log = console.log;
+var table = console.table;
+var rawInput = (0, common_1.inputToStringArray)('day1.input.txt', '\n');
 //console.table(rawInput);
-
 function part1() {
-
-    let answer;
-    log(`${answer}`);
+    var answer;
+    log("".concat(answer));
 }
-
 function part2() {
-
-    let answer;
-    log(`${answer}`);
+    var answer;
+    log("".concat(answer));
 }
-
 // main method to run the program
-function main(first: boolean, second: boolean) {
+function main(first, second) {
     if (first) {
         log('--------------------------------------');
         log('----------  First Challenge ----------');
@@ -35,5 +31,4 @@ function main(first: boolean, second: boolean) {
         log('\n\n');
     }
 }
-
 main(true, false);
